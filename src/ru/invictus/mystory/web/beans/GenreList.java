@@ -2,7 +2,6 @@ package ru.invictus.mystory.web.beans;
 
 import ru.invictus.mystory.web.db.Database;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,11 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class GenreList {
-    private static List<Genre> genreList = new ArrayList<>();
+    private List<Genre> genreList = new ArrayList<>();
 
-    private static void getGenres() {
-        try (Connection connection = Database.getConnection();
-             Statement statement = connection.createStatement();
+    private void getGenres() {
+        try (Statement statement = Database.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.genre order by name")) {
             while (resultSet.next()) {
                 Genre genre = new Genre();
@@ -29,7 +27,7 @@ public class GenreList {
         }
     }
 
-    public static List<Genre> getGenreList() {
+    public List<Genre> getGenreList() {
         if (genreList.isEmpty()) {
             getGenres();
         }

@@ -2,7 +2,6 @@ package ru.invictus.mystory.web.beans;
 
 import ru.invictus.mystory.web.db.Database;
 
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,11 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class AuthorList {
-    private static List<Author> authorList = new ArrayList<>();
+    private List<Author> authorList = new ArrayList<>();
 
-    private static void getAuthors() {
-        try (Connection connection = Database.getConnection();
-             Statement statement = connection.createStatement();
+    private void getAuthors() {
+        try (Statement statement = Database.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.author order by fio")) {
             while (resultSet.next()) {
                 Author author = new Author();
@@ -30,7 +28,7 @@ public class AuthorList {
         }
     }
 
-    public static List<Author> getAuthorList() {
+    public List<Author> getAuthorList() {
         if (authorList.isEmpty()) {
             getAuthors();
         }
