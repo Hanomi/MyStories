@@ -26,7 +26,7 @@
         <ul>
             <jsp:useBean id="genreList" scope="application" class="ru.invictus.mystory.web.beans.GenreList"/>
             <c:forEach var="genre" items="${genreList.getGenreList()}">
-                <li><a href="#">${author.fio}</a></li>
+                <li><a href="#">${genre.fio}</a></li>
             </c:forEach>
         </ul>
     </div>
