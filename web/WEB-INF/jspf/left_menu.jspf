@@ -1,0 +1,12 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page pageEncoding="UTF-8" %>
+
+<div class="left_sidebar">
+    <h3>Жанры:</h3>
+    <ul>
+        <jsp:useBean id="genreList" scope="application" class="ru.invictus.mystory.web.beans.GenreList"/>
+        <c:forEach var="genre" items="${genreList.getGenreList()}">
+            <li><a href="books.jsp?genre_id=${genre.id}&name=${genre.name}">${genre.name}</a></li>
+        </c:forEach>
+    </ul>
+</div>

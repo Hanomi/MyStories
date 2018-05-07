@@ -20,6 +20,7 @@ public class GenreList {
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.genre order by name")) {
             while (resultSet.next()) {
                 Genre genre = new Genre();
+                genre.setId(resultSet.getInt("id"));
                 genre.setName(resultSet.getString("name"));
                 genreList.add(genre);
             }

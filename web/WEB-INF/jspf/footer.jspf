@@ -1,0 +1,8 @@
+<%@ page pageEncoding="UTF-8" %>
+
+<footer>
+    <p class="gray">@code by freefpdie 2018</p>
+</footer>
+
+</body>
+</html>
