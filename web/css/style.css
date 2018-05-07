@@ -1,8 +1,9 @@
 .box {
-    width: 1024px;
+    width: 960px;
     margin: auto;
     border: 1px solid darkblue;
     text-align: center;
+    background:#eee;
 }
 .gray {
     color: gray;

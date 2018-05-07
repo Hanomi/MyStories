@@ -13,7 +13,7 @@
     <title>MyStory</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/main_style.css.css"/>
+    <link rel="stylesheet" href="css/main_style.css"/>
 </head>
 <body>
 <div class="box">
@@ -34,8 +34,7 @@
         <h3>Список авторов</h3>
         <ul>
             <%
-                AuthorList authorList = new AuthorList();
-                for(Author author : authorList.getAuthorList()) {%>
+                for(Author author : AuthorList.getAuthorList()) {%>
             <li><a href="#"><%=author.getName()%></a></li>
             <%};%>
         </ul>
