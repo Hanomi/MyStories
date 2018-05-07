@@ -1,0 +1,13 @@
+.box {
+    width: 400px;
+    margin: auto;
+    border: 1px solid darkblue;
+    text-align: center;
+}
+.gray {
+    color: gray;
+}
+.blue {
+    border: 1px solid darkblue;
+    background: lightgray;
+}
