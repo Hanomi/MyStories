@@ -25,7 +25,9 @@
             <input type="password" name="password" placeholder="password" maxlength="20" size="20" required/></p>
         <p><input class="blue" type="submit" value="Enter"/></p>
     </form>
-    <p class="gray">@code by freefpdie 2018</p>
+    <footer>
+        <p class="gray">@code by freefpdie 2018</p>
+    </footer>
 </div>
 </body>
 </html>

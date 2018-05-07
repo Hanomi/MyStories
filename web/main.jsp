@@ -1,4 +1,6 @@
-<%@ page import="test.JdbcTest" %><%--
+<%@ page import="test.JdbcTest" %>
+<%@ page import="ru.invictus.mystory.web.beans.AuthorList" %>
+<%@ page import="ru.invictus.mystory.web.beans.Author" %><%--
   Created by IntelliJ IDEA.
   User: Naera
   Date: 04.05.2018
@@ -29,7 +31,14 @@
     </header>
 
     <div class="left_sidebar">
-
+        <h3>Список авторов</h3>
+        <ul>
+            <%
+                AuthorList authorList = new AuthorList();
+                for(Author author : authorList.getAuthorList()) {%>
+            <li><a href="#"><%=author.getName()%></a></li>
+            <%};%>
+        </ul>
     </div>
 
     <div class="content">
@@ -37,7 +46,7 @@
     </div>
 
     <footer>
-
+        <p class="gray">@code by freefpdie 2018</p>
     </footer>
 </div>
 </body>
