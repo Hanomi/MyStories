@@ -5,6 +5,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 public class Book implements Serializable {
+    private int id;
     private String name;
     private byte[] content;
     private int pageCount;
@@ -14,6 +15,14 @@ public class Book implements Serializable {
     private Date publishDate;
     private String publisher;
     private Image image;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -31,7 +40,7 @@ public class Book implements Serializable {
         this.content = content;
     }
 
-    public int getPage_count() {
+    public int getPageCount() {
         return pageCount;
     }
 

@@ -20,6 +20,7 @@ public class AuthorList {
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.author order by fio")) {
             while (resultSet.next()) {
                 Author author = new Author();
+                author.setId(resultSet.getInt("id"));
                 author.setFio(resultSet.getString("fio"));
                 author.setBirthday(resultSet.getDate("birthday"));
                 authorList.add(author);

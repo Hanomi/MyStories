@@ -20,6 +20,7 @@ public class BookList {
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.book order by name")) {
             while (resultSet.next()) {
                 Book book = new Book();
+                book.setId(resultSet.getInt("id"));
                 book.setName(resultSet.getString("name"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setIsbn(resultSet.getString("isbn"));
