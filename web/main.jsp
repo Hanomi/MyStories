@@ -24,8 +24,8 @@
     <div class="left_sidebar">
         <h3>Список авторов</h3>
         <ul>
-            <jsp:useBean id="authorList" scope="application" class="ru.invictus.mystory.web.beans.AuthorList"/>
-            <c:forEach var="author" items="${authorList.getAuthorList()}">
+            <jsp:useBean id="genreList" scope="application" class="ru.invictus.mystory.web.beans.GenreList"/>
+            <c:forEach var="genre" items="${genreList.getGenreList()}">
                 <li><a href="#">${author.fio}</a></li>
             </c:forEach>
         </ul>

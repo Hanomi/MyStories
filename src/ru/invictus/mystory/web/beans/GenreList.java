@@ -28,7 +28,7 @@ public class GenreList {
         }
     }
 
-    public static List<Genre> getBookList() {
+    public static List<Genre> getGenreList() {
         if (genreList.isEmpty()) {
             getGenres();
         }
