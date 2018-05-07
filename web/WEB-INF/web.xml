@@ -15,11 +15,10 @@
     <jsp-config>
         <jsp-property-group>
             <display-name>headerAndFooter</display-name>
-            <url-pattern>/*</url-pattern>
+            <url-pattern>*.jsp</url-pattern>
             <page-encoding>UTF-8</page-encoding>
             <include-prelude>/WEB-INF/jspf/header.jspf</include-prelude>
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
-
 </web-app>

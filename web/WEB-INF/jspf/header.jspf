@@ -5,18 +5,20 @@
     <title>MyStory</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css"/>
-    <link rel="stylesheet" href="css/main_style.css"/>
 </head>
 <body>
-
 <header>
-    <img alt="place for logo" name="logo" width="1024" height="100"/>
-    <form name="search_form" method="post">
-        <input type="text" name="search_string" value="" size="100"/>
-        <input type="submit" name="search_button" value="Search"/>
-        <select name="search_value">
-            <option>Название</option>
-            <option>Автор</option>
-        </select>
-    </form>
+    <div class="head">
+        <img src="images/12956-200.png" alt="logo" name="logo"/>
+        <h2>Welcome to MyStory</h2>
+        <form name="search_form" method="post">
+                <input type="text" name="search_string" value=""/>
+                <input type="submit" name="search_button" value="Search"/>
+                <select name="search_value">
+                    <option>Название</option>
+                    <option>Автор</option>
+                </select>
+            </form>
+    </div>
 </header>
+<div class="inner_main">
