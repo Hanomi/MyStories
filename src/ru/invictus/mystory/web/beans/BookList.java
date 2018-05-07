@@ -22,6 +22,7 @@ public class BookList {
                 Book book = new Book();
                 book.setId(resultSet.getInt("id"));
                 book.setName(resultSet.getString("name"));
+                book.setAuthor(resultSet.getString("author"));
                 book.setGenre(resultSet.getString("genre"));
                 book.setIsbn(resultSet.getString("isbn"));
                 book.setPageCount(resultSet.getInt("page_count"));
@@ -46,7 +47,7 @@ public class BookList {
                 " INNER JOIN author a on b.author_id = a.id " +
                 " INNER JOIN genre g on b.genre_id = g.id " +
                 " INNER JOIN publisher p on b.publisher_id = p.id " +
-                "WHERE genre_id = 15 ORDER BY b.name " +
+                "WHERE genre_id = " + id + " ORDER BY b.name " +
                 "LIMIT 0,5");
     }
 }
