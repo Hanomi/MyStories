@@ -8,16 +8,48 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title>MyStory</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/main_style.css.css"/>
 </head>
 <body>
-    <% request.setCharacterEncoding("UTF-8"); %>
-    <h3> ${param["username"]}</h3>
-    <h3> ${param["password"]}</h3>
+<div class="box">
+    <header>
+        <img alt="place for logo" name="logo" width="1024" height="100"/>
+        <form name="search_form" method="post">
+            <img src="images/search.png" width="16" height="16"/>
+            <input type="text" name="search_string" value="" size="100"/>
+            <input type="submit" name="search_button" value="Search"/>
+            <select name="search_value">
+                <option>Название</option>
+                <option>Автор</option>
+            </select>
+        </form>
+    </header>
 
-    <%
-        JdbcTest jdbcTest = new JdbcTest();
-        jdbcTest.check();
-    %>
+    <div class="left_sidebar">
+
+    </div>
+
+    <div class="content">
+
+    </div>
+
+    <footer>
+
+    </footer>
+</div>
 </body>
 </html>
+
+
+
+<%--    <% request.setCharacterEncoding("UTF-8"); %>
+        <h3> ${param["username"]}</h3>
+        <h3> ${param["password"]}</h3>
+
+        <%
+            JdbcTest jdbcTest = new JdbcTest();
+            jdbcTest.check();
+        %>--%>

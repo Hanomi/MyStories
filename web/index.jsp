@@ -9,7 +9,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Hello enter</title>
+    <title>Welcome to MyStory</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css"/>
 </head>
