@@ -14,14 +14,13 @@ import java.util.logging.Logger;
 public class GenreList {
     private static List<Genre> genreList = new ArrayList<>();
 
-    private GenreList() {}
-
     private static void getGenres() {
         try (Connection connection = Database.getConnection();
              Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.genre order by name")) {
             while (resultSet.next()) {
-                Genre genre = new Genre(resultSet.getString("name"));
+                Genre genre = new Genre();
+                genre.setName(resultSet.getString("name"));
                 genreList.add(genre);
             }
         } catch (SQLException e) {

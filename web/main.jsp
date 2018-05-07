@@ -1,12 +1,4 @@
-<%@ page import="test.JdbcTest" %>
-<%@ page import="ru.invictus.mystory.web.beans.AuthorList" %>
-<%@ page import="ru.invictus.mystory.web.beans.Author" %><%--
-  Created by IntelliJ IDEA.
-  User: Naera
-  Date: 04.05.2018
-  Time: 18:36
-  To change this template use File | Settings | File Templates.
---%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
@@ -20,7 +12,6 @@
     <header>
         <img alt="place for logo" name="logo" width="1024" height="100"/>
         <form name="search_form" method="post">
-            <img src="images/search.png" width="16" height="16"/>
             <input type="text" name="search_string" value="" size="100"/>
             <input type="submit" name="search_button" value="Search"/>
             <select name="search_value">
@@ -33,10 +24,10 @@
     <div class="left_sidebar">
         <h3>Список авторов</h3>
         <ul>
-            <%
-                for(Author author : AuthorList.getAuthorList()) {%>
-            <li><a href="#"><%=author.getName()%></a></li>
-            <%};%>
+            <jsp:useBean id="authorList" scope="application" class="ru.invictus.mystory.web.beans.AuthorList"/>
+            <c:forEach var="author" items="${authorList.getAuthorList()}">
+                <li><a href="#">${author.fio}</a></li>
+            </c:forEach>
         </ul>
     </div>
 

@@ -14,8 +14,6 @@ import java.util.logging.Logger;
 public class BookList {
     private static List<Book> bookList = new ArrayList<>();
 
-    private BookList() {}
-
     private static void getBooks() {
         try (Connection connection = Database.getConnection();
              Statement statement = connection.createStatement();
@@ -23,6 +21,11 @@ public class BookList {
             while (resultSet.next()) {
                 Book book = new Book();
                 book.setName(resultSet.getString("name"));
+                book.setGenre(resultSet.getString("genre"));
+                book.setIsbn(resultSet.getString("isbn"));
+                book.setPageCount(resultSet.getInt("page_count"));
+                book.setPublishDate(resultSet.getDate("publish_date"));
+                book.setPublisher(resultSet.getString("publisher"));
                 bookList.add(book);
             }
         } catch (SQLException e) {

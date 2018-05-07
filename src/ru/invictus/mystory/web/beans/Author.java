@@ -1,20 +1,24 @@
 package ru.invictus.mystory.web.beans;
 
+import java.util.Date;
+
 public class Author {
+    private String fio;
+    private Date birthday;
 
-    private String name;
-
-    public Author() {}
-
-    public Author(String name) {
-        this.name = name;
+    public String getFio() {
+        return fio;
     }
 
-    public String getName() {
-        return name;
+    public void setFio(String fio) {
+        this.fio = fio;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public void setBirthday(Date birthday) {
+        this.birthday = birthday;
     }
 }
