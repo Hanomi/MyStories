@@ -12,12 +12,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class BookList {
-    private static List<Book> bookList = new ArrayList<>();
-
-    private static void getBooks() {
+    private List<Book> getBooks(String sql) {
+        List<Book> bookList = new ArrayList<>();
         try (Connection connection = Database.getConnection();
              Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT * from mystory.book order by name")) {
+             ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
                 Book book = new Book();
                 book.setId(resultSet.getInt("id"));
@@ -32,12 +31,21 @@ public class BookList {
         } catch (SQLException e) {
             Logger.getLogger(AuthorList.class.getName()).log(Level.SEVERE, null, e);
         }
+        return bookList;
     }
 
-    public static List<Book> getBookList() {
-        if (bookList.isEmpty()) {
-            getBooks();
-        }
-        return bookList;
+    public List<Book> getBookList() {
+        return getBooks("SELECT * from mystory.book order by name");
+    }
+
+    public List<Book> getBookListByGenre(int id) {
+        return getBooks("SELECT b.id, b.name, b.isbn, b.page_count,b.publish_year, b.publish_year, b.image " +
+                "a.fio AS author, g.name AS genre, p.name AS publisher " +
+                "FROM mystory.book b " +
+                "INNER JOIN author a on b.author_id = a.id " +
+                "INNER JOIN genre g on b.genre_id = g.id " +
+                "INNER JOIN publisher p on b.publisher_id = p.id " +
+                "WHERE genre_id = " + id + " ORDER BY b.name " +
+                "LIMIT 0,5");
     }
 }
