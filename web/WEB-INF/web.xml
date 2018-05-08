@@ -21,4 +21,14 @@
             <include-coda>/WEB-INF/jspf/footer.jspf</include-coda>
         </jsp-property-group>
     </jsp-config>
+    
+    <servlet>
+        <servlet-name>ShowImage</servlet-name>
+        <servlet-class>ru.invictus.mystory.web.servlets.ShowImage</servlet-class>
+    </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>ShowImage</servlet-name>
+        <url-pattern>/image</url-pattern>
+    </servlet-mapping>
 </web-app>

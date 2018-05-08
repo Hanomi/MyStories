@@ -26,6 +26,7 @@ public class BookList {
                 book.setPageCount(resultSet.getInt("page_count"));
                 book.setPublishDate(resultSet.getDate("publish_year"));
                 book.setPublisher(resultSet.getString("publisher"));
+                book.setImage(resultSet.getBytes("image"));
                 bookList.add(book);
             }
         } catch (SQLException e) {

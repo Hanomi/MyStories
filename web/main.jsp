@@ -9,7 +9,6 @@
 
         try {
             genreId = Integer.parseInt(request.getParameter("genre_id"));
-            System.out.println(genreId);
         } catch (NumberFormatException e) {
             e.printStackTrace();
         }
@@ -18,10 +17,13 @@
     <jsp:useBean id="bookList" class="ru.invictus.mystory.web.beans.BookList"/>
 
     <table class="bookTable">
-        <%for (Book book : bookList.getBookListByGenre(genreId)) {%>
+        <%if (genreId > 0) {
+            for (Book book : bookList.getBookListByGenre(genreId)) {
+            session.setAttribute("cover"+book.getId(), book);%>
         <tr>
             <td>
                 <p><%=book.getName()%></p>
+                <img src="<%=request.getContextPath()%>/image?cover<%=book.getId()%>" width="190" alt="Cover"/>
                 <br>isbn: <%=book.getIsbn()%>
                 <br>page count: <%=book.getPageCount()%>
                 <br>author: <%=book.getAuthor()%>
@@ -30,7 +32,7 @@
                 <p><a href="#">Read.</a> </p>
             </td>
         </tr>
-        <%}%>
+        <%}}%>
     </table>
 </div>
 
