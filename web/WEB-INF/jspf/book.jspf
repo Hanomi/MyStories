@@ -1,5 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
-<p><img src="<%=request.getContextPath()%>/image?cover<%=book.getId()%>" width="190" alt="Cover"/></p>
+<p><img src="<%=request.getContextPath()%>/image?index=<%=book.getId()%>" width="190" alt="Cover"/></p>
 <figcaption><%=book.getName()%></figcaption>
 <br>genre: <%=book.getGenre()%>
 <br>isbn: <%=book.getIsbn()%>
@@ -7,4 +7,4 @@
 <br>author: <%=book.getAuthor()%>
 <br>published: <%=book.getPublishDate()%>
 <br>publisher: <%=book.getPublisher()%>
-<p><a href="#">Read.</a> </p>
+<p><a href="<%=request.getContextPath()%>/read?index=<%=book.getId()%>">Read.</a></p>

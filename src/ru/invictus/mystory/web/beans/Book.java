@@ -1,7 +1,14 @@
 package ru.invictus.mystory.web.beans;
 
+import ru.invictus.mystory.web.db.Database;
+
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Book implements Serializable {
     private int id;
@@ -35,8 +42,10 @@ public class Book implements Serializable {
         return content;
     }
 
-    public void setContent(byte[] content) {
-        this.content = content;
+    private void setContent(byte[] content) {
+        if (this.content == null) {
+            this.content = content;
+        }
     }
 
     public int getPageCount() {
@@ -93,5 +102,16 @@ public class Book implements Serializable {
 
     public void setImage(byte[] image) {
         this.image = image;
+    }
+
+    public void readPdfContent() {
+        try (Statement statement = Database.getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT book.content FROM mystory.book WHERE id=" + this.id)) {
+            while (resultSet.next()) {
+                this.setContent(resultSet.getBytes("content"));
+            }
+        } catch (SQLException e) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, e);
+        }
     }
 }

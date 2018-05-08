@@ -25,7 +25,7 @@ public class LetterList {
                     }
                 }
             } catch (SQLException e) {
-                Logger.getLogger(AuthorList.class.getName()).log(Level.SEVERE, null, e);
+                Logger.getLogger(LetterList.class.getName()).log(Level.SEVERE, null, e);
             }
             letters = new char[list.size()];
             for (int i = 0; i < list.size(); i++) {

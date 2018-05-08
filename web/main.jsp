@@ -31,7 +31,7 @@
         <%if (list != null && list.size() > 0) {
             int a = 0;
             for (Book book : list) {
-            session.setAttribute("cover"+book.getId(), book);
+            session.setAttribute("book"+book.getId(), book);
         %>
             <% if(a % 3 == 0) {%><article class="books booksRow"><%} else {%><article class="books"><%}%>
                 <%@include file="WEB-INF/jspf/book.jspf" %>

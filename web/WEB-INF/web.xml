@@ -31,4 +31,14 @@
         <servlet-name>ShowImage</servlet-name>
         <url-pattern>/image</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ReadPdf</servlet-name>
+        <servlet-class>ru.invictus.mystory.web.servlets.ReadPdf</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ReadPdf</servlet-name>
+        <url-pattern>/read</url-pattern>
+    </servlet-mapping>
 </web-app>

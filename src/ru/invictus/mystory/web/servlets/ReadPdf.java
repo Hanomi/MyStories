@@ -8,17 +8,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Enumeration;
 
-public class ShowImage extends HttpServlet {
+public class ReadPdf extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        resp.setContentType("image/jpeg");
+        resp.setContentType("application/pdf");
 
         try (OutputStream out = resp.getOutputStream()) {
             String bookId = req.getParameter("index");
             Book book = (Book) req.getSession(false).getAttribute("book" + bookId);
-            resp.setContentLength(book.getImage().length);
-            out.write(book.getImage());
+            book.readPdfContent();
+            resp.setContentLength(book.getContent().length);
+            out.write(book.getContent());
         }
     }
 }
