@@ -9,7 +9,6 @@
 <body>
 <header>
     <div class="head">
-        <img src="images/12956-200.png" alt="logo" name="logo"/>
         <h2>Welcome to MyStory</h2>
         <form name="search_form" method="post">
                 <input type="text" name="search_string" value=""/>

@@ -47,6 +47,6 @@ public class BookList {
                 " INNER JOIN genre g on b.genre_id = g.id " +
                 " INNER JOIN publisher p on b.publisher_id = p.id " +
                 "WHERE genre_id = " + id + " ORDER BY b.name " +
-                "LIMIT 0,5");
+                "LIMIT 0,6");
     }
 }
