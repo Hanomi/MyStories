@@ -1,4 +1,5 @@
-<%@ page pageEncoding="utf-8" %>
+<%@page pageEncoding="UTF-8"%>
+<%request.setCharacterEncoding("UTF-8");%>
 
 <html>
 <head>
@@ -11,7 +12,10 @@
     <div class="head">
         <h2>Welcome to MyStory</h2>
         <form name="search_form">
-                <input type="text" name="search_string" value="" placeholder="Author or book name search"/>
+                <input type="text"
+                       name="search_string"
+                       value="<%=request.getParameter("search_string") != null ? request.getParameter("search_string") : ""%>"
+                       placeholder="Author or book name search"/>
                 <input type="submit" value="Search"/>
                 <select name="search_value">
                     <option>Название</option>

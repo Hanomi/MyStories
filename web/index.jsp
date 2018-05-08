@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 
 <div class="general">
+    <%@include file="WEB-INF/jspf/letters.jspf" %>
     <h3>Welcome to MyStory</h3>
     <p>Project under construction... </p>
     <form name="login" action="main.jsp" method="post">

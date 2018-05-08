@@ -76,3 +76,12 @@ header {
     margin: 0;
 }
 
+.pushed:active, .pushed:visited, .pushed:link, .pushed:hover{
+    color: #000088;
+    text-decoration: none;
+}
+
+.pushed2:active, .pushed2:visited, .pushed2:link, .pushed2:hover{
+    color: #ff0000;
+    text-decoration: none;
+}

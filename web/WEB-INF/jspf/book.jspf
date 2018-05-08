@@ -1,5 +1,7 @@
+<%@ page pageEncoding="UTF-8" %>
 <p><img src="<%=request.getContextPath()%>/image?cover<%=book.getId()%>" width="190" alt="Cover"/></p>
 <figcaption><%=book.getName()%></figcaption>
+<br>genre: <%=book.getGenre()%>
 <br>isbn: <%=book.getIsbn()%>
 <br>page count: <%=book.getPageCount()%>
 <br>author: <%=book.getAuthor()%>

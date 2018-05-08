@@ -58,7 +58,7 @@ public class BookList {
                 " INNER JOIN author a on b.author_id = a.id " +
                 " INNER JOIN genre g on b.genre_id = g.id " +
                 " INNER JOIN publisher p on b.publisher_id = p.id " +
-                "WHERE b.name REGEXP '^" + letter + "' ORDER BY b.name" +
+                "WHERE b.name REGEXP '^" + letter + "' ORDER BY b.name " +
                 "LIMIT 0,6");
     }
 
