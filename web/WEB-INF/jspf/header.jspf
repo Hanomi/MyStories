@@ -10,9 +10,9 @@
 <header>
     <div class="head">
         <h2>Welcome to MyStory</h2>
-        <form name="search_form" method="post">
-                <input type="text" name="search_string" value=""/>
-                <input type="submit" name="search_button" value="Search"/>
+        <form name="search_form">
+                <input type="text" name="search_string" value="" placeholder="Author or book name search"/>
+                <input type="submit" value="Search"/>
                 <select name="search_value">
                     <option>Название</option>
                     <option>Автор</option>

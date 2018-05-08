@@ -1,6 +1,7 @@
 package ru.invictus.mystory.web.beans;
 
 import ru.invictus.mystory.web.db.Database;
+import ru.invictus.mystory.web.soft.SearchType;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -46,7 +47,37 @@ public class BookList {
                 " INNER JOIN author a on b.author_id = a.id " +
                 " INNER JOIN genre g on b.genre_id = g.id " +
                 " INNER JOIN publisher p on b.publisher_id = p.id " +
-                "WHERE genre_id = " + id + " ORDER BY b.name " +
+                "WHERE b.genre_id = " + id + " ORDER BY b.name " +
                 "LIMIT 0,6");
+    }
+
+    public List<Book> getBookListByLetter(String letter) {
+        return getBooks("SELECT b.id, b.name, b.isbn, b.page_count,b.publish_year, b.publish_year, b.image, " +
+                "a.fio AS author, g.name AS genre, p.name AS publisher " +
+                "FROM mystory.book b " +
+                " INNER JOIN author a on b.author_id = a.id " +
+                " INNER JOIN genre g on b.genre_id = g.id " +
+                " INNER JOIN publisher p on b.publisher_id = p.id " +
+                "WHERE b.name REGEXP '^" + letter + "' ORDER BY b.name" +
+                "LIMIT 0,6");
+    }
+
+    public List<Book> getBookListBySearch(SearchType searchType, String searchString) {
+        StringBuilder builder = new StringBuilder("SELECT b.id, b.name, b.isbn, b.page_count,b.publish_year, b.publish_year, b.image, " +
+                "a.fio AS author, g.name AS genre, p.name AS publisher " +
+                "FROM mystory.book b " +
+                "INNER JOIN author a on b.author_id = a.id " +
+                "INNER JOIN genre g on b.genre_id = g.id " +
+                "INNER JOIN publisher p on b.publisher_id = p.id " +
+                "WHERE");
+        if (searchType == SearchType.AUTHOR) {
+            builder.append(" a.fio ");
+        } else {
+            builder.append(" b.name ");
+        }
+        builder.append("REGEXP '");
+        builder.append(searchString);
+        builder.append("' ORDER BY b.name LIMIT 0, 6");
+        return getBooks(builder.toString());
     }
 }
