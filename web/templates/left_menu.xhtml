@@ -13,7 +13,6 @@
 <h:body>
     <ui:composition>
         <h3>#{lcl.genres}:</h3>
-
         <h:form styleClass="genres">
             <ui:repeat value="#{genreController.genreList}" var="g">
                 <h:commandLink action="#{searchController.fillBooksByGenre()}" value="#{g.name}">
@@ -21,9 +20,7 @@
                 </h:commandLink>
             </ui:repeat>
         </h:form>
-
     </ui:composition>
-    
 </h:body>
 
 </html>

@@ -1,6 +1,7 @@
 package ru.invictus.mystories.controller;
 
 import javax.enterprise.context.RequestScoped;
+import javax.faces.context.FacesContext;
 import javax.inject.Named;
 
 @Named
@@ -11,5 +12,10 @@ public class LoginController {
 
     public String login() {
         return "books";
+    }
+
+    public String exit() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "exit";
     }
 }

@@ -13,11 +13,14 @@
     <ui:composition>
         <div class="head">
             <h:graphicImage library="images" name="my-story.png"/>
-            <!--<h2>#{lcl.welcome_title}</h2>-->
-
+            <h5>#{lcl.welcome_title}, #{user.username}</h5>
             <h:form>
-                <h:inputText id="search_string"/>
-                <h:commandButton value="#{lcl.search}"/>
+                <h:commandButton action="#{loginController.exit()}" value="#{lcl.exit}"/>
+            </h:form>
+
+            <h:form styleClass="search_form">
+                <h:inputText id="search_string" value="#{searchController.searchString}"/>
+                <h:commandButton value="#{lcl.search}" action="#{searchController.fillBooksBySearch()}"/>
                 <h:selectOneMenu value="#{searchController.searchType}">
                     <f:selectItems value="#{searchController.searchMap}"/>
                 </h:selectOneMenu>

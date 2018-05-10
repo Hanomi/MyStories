@@ -22,10 +22,10 @@ header {
 }
 
 .head img{
-
+    float: left;
 }
 
-.head form {
+.search_form {
     position: absolute;
     right: 1.851851851851852%;
     bottom: .625em;
@@ -96,6 +96,19 @@ footer {
 .genres a, a:visited {
     padding: 3px 3px 3px 1px;
     display: block;
+    text-decoration: none;
+    color: #000
+}
+
+.letters a:hover, a:active a:focus {
+    background-color: #fff;
+    color: #999;
+}
+
+.letters a, a:visited {
+    padding: 3px 3px 3px 1px;
+    display: block;
+    float: left;
     text-decoration: none;
     color: #000
 }
