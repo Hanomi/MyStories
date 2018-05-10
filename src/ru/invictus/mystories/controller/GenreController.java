@@ -4,7 +4,6 @@ import ru.invictus.mystories.beans.Genre;
 import ru.invictus.mystories.db.Database;
 import ru.invictus.mystories.intergaces.Eager;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -20,14 +19,18 @@ import java.util.logging.Logger;
 @Eager
 @ApplicationScoped
 public class GenreController implements Serializable {
-    private final List<Genre> genreList;
+    private static final List<Genre> genreList;
 
-    public GenreController() {
-        this.genreList = new ArrayList<>();
+    static {
+        genreList = new ArrayList<>();
+        getGenres();
     }
 
-    @PostConstruct
-    protected void getGenres() {
+    public GenreController() {
+
+    }
+
+    private static void getGenres() {
         try (Statement statement = Database.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT * from mystory.genre order by name")) {
             while (resultSet.next()) {

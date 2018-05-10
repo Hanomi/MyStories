@@ -15,6 +15,7 @@ public class EagerListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent event) {
+        //toString() triggers lazy instantiation
         CDI.current().select(EAGER_ANNOTATION).forEach(Object::toString);
     }
 
