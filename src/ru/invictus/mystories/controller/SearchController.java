@@ -23,12 +23,30 @@ public class SearchController implements Serializable {
     private static Map<String, SearchType> searchMap = new HashMap<>();
     private List<Book> bookList;
     private static final Logger logger;
+    private static char[] letters;
 
     static {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.localisation", FacesContext.getCurrentInstance().getViewRoot().getLocale());
         searchMap.put(resourceBundle.getString("author_name"), SearchType.AUTHOR);
         searchMap.put(resourceBundle.getString("book_name"), SearchType.TITLE);
         logger = Logger.getLogger(SearchController.class.getName());
+
+        ArrayList<Character> list = new ArrayList<>();
+        try (Statement statement = Database.getConnection().createStatement();
+             ResultSet resultSet = statement.executeQuery("SELECT book.name from mystory.book order by name")) {
+            while (resultSet.next()) {
+                char a = resultSet.getString("name").toLowerCase().charAt(0);
+                if (list.isEmpty() || a != list.get(list.size()-1)) {
+                    list.add(a);
+                }
+            }
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, null, e);
+        }
+        letters = new char[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            letters[i] = list.get(i);
+        }
     }
 
     public SearchController() {
@@ -87,15 +105,15 @@ public class SearchController implements Serializable {
 
 
     public byte[] getData(String id, FileType fileType) {
-        byte[] fyle = null;
+        byte[] file = null;
         try (Statement statement = Database.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery("SELECT book." + fileType.getType() + " FROM mystory.book WHERE id=" + id)) {
             while (resultSet.next()) {
-                fyle = resultSet.getBytes(fileType.getType());
+                file = resultSet.getBytes(fileType.getType());
             }
         } catch (SQLException e) {
             Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, e);
         }
-        return fyle;
+        return file;
     }
 }
