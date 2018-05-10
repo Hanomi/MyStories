@@ -14,12 +14,15 @@ import java.util.ResourceBundle;
 @SessionScoped
 public class SearchController implements Serializable {
     private SearchType searchType;
-    private Map<String, SearchType> searchMap = new HashMap<>();
+    private static Map<String, SearchType> searchMap = new HashMap<>();
 
-    public SearchController() {
+    static {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.localisation", FacesContext.getCurrentInstance().getViewRoot().getLocale());
         searchMap.put(resourceBundle.getString("author_name"), SearchType.AUTHOR);
         searchMap.put(resourceBundle.getString("book_name"), SearchType.TITLE);
+    }
+
+    public SearchController() {
     }
 
     public void setSearchType(SearchType searchType) {

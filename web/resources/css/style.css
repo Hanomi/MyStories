@@ -97,14 +97,16 @@ footer {
     clear: both;
 }
 
-.pushed:active, .pushed:visited, .pushed:link, .pushed:hover{
-    color: #000088;
-    text-decoration: none;
+.genres a:hover, a:active a:focus {
+    background-color: #fff;
+    color: #999;
 }
 
-.pushed2:active, .pushed2:visited, .pushed2:link, .pushed2:hover{
-    color: #ff0000;
+.genres a, a:visited {
+    padding: 3px 3px 3px 1px;
+    display: block;
     text-decoration: none;
+    color: #000
 }
 
 .error {

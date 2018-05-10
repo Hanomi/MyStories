@@ -1,6 +1,8 @@
 package ru.invictus.mystories.beans;
 
-public class Genre {
+import java.io.Serializable;
+
+public class Genre implements Serializable {
     private int id;
     private String name;
 
