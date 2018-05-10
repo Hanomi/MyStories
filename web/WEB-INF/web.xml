@@ -25,4 +25,24 @@
     <welcome-file-list>
         <welcome-file>index.xhtml</welcome-file>
     </welcome-file-list>
+
+    <servlet>
+        <servlet-name>ShowImage</servlet-name>
+        <servlet-class>ru.invictus.mystories.servlets.ShowImage</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowImage</servlet-name>
+        <url-pattern>/image</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ShowPdf</servlet-name>
+        <servlet-class>ru.invictus.mystories.servlets.ShowPdf</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>ShowPdf</servlet-name>
+        <url-pattern>/read</url-pattern>
+    </servlet-mapping>
 </web-app>

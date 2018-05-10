@@ -13,14 +13,13 @@ import java.util.logging.Logger;
 public class Book implements Serializable {
     private int id;
     private String name;
-    private byte[] content;
     private int pageCount;
     private String isbn;
     private String genre;
     private String author;
     private Date publishDate;
     private String publisher;
-    private byte[] image;
+    private String description;
 
     public int getId() {
         return id;
@@ -36,16 +35,6 @@ public class Book implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    private void setContent(byte[] content) {
-        if (this.content == null) {
-            this.content = content;
-        }
     }
 
     public int getPageCount() {
@@ -96,22 +85,11 @@ public class Book implements Serializable {
         this.publisher = publisher;
     }
 
-    public byte[] getImage() {
-        return image;
+    public String getDescription() {
+        return description;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-
-    public void readPdfContent() {
-        try (Statement statement = Database.getConnection().createStatement();
-             ResultSet resultSet = statement.executeQuery("SELECT book.content FROM mystory.book WHERE id=" + this.id)) {
-            while (resultSet.next()) {
-                this.setContent(resultSet.getBytes("content"));
-            }
-        } catch (SQLException e) {
-            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, e);
-        }
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

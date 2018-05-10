@@ -19,10 +19,29 @@
         </ui:define>
 
         <ui:define name="content">
-            #{user.username}
-            #{param.genre_id}
+            <p><strong>#{lcl.book_count}: #{searchController.bookList.size()}</strong></p>
+            <h:dataTable value="#{searchController.bookList}" var="b" columnClasses="col1, col2, col3">
+                <h:column>
+                    <h:graphicImage value="/image?id=#{b.id}" width="120"/>
+                </h:column>
+                <h:column>
+                    <div>
+                        <p><h:outputLink value="/read?id=#{b.id}">#{b.name}</h:outputLink></p>
+                        <p>#{lcl.author_name}: #{b.author}</p>
+                        <p>#{lcl.page_count}: #{b.pageCount}</p>
+                        <p>#{lcl.publisher}: #{b.publisher}</p>
+                        <p>#{lcl.publishDate}: #{b.publishDate}</p>
+                        <p>#{lcl.isbn}: #{b.isbn}</p>
+                    </div>
+                </h:column>
+                <h:column>
+                    <div class="description">
+                        <p><strong>#{lcl.description}:</strong></p>
+                        <p>#{b.description}</p>
+                    </div>
+                </h:column>
+            </h:dataTable>
         </ui:define>
-
 
     </ui:composition>
 

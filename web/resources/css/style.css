@@ -54,24 +54,15 @@ header {
     padding-left: 1.7157895%;
 }
 
-.leftmenu {
+.left_menu {
     width: 26.530189%;
     float: left;
     margin-left: 1.311851851851852%;
     font-size: 90%;
 }
 
-.books {
-    float: left;
-    padding-bottom: 1.25em;
-    border-bottom: 1px solid #ddd;
-    margin-left: 10px;
-    width: 32%;
-}
+.description {
 
-.booksRow {
-    clear: left;
-    margin: 0;
 }
 
 .general-bottom {
