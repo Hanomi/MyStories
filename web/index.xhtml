@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>#{lcl.index_title}</title>
+    <meta charset="utf-8"/>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <header>
+        <div class="head">
+            <h2>#{lcl.welcome_title}</h2>
+        </div>
+    </header>
+    <div class="inner_main">
+        <div class="general">
+            <p>#{lcl.input_info}</p>
+            <h:form>
+                #{lcl.input_name}:
+                <h:inputText id="username" value="#{user.username}" required="true"
+                             requiredMessage="#{lcl.login_required}">
+                    <f:validator validatorId="loginValidator"/>
+                </h:inputText>
+                <!--<h:commandButton action="books/?faces-redirect=true" value="#{lcl.enter}"/>-->
+                <h:commandButton action="#{loginController.login}" value="#{lcl.enter}"/>
+                <p><h:message for="username" styleClass="error"/></p>
+            </h:form>
+        </div>
+        <aside id="secondary" class="secondary-a" role="complementary">
+            <h3>Жанры:</h3>
+            <ul>
+                <li>blahblah</li>
+                <li>blahblah</li>
+                <li>blahblah</li>
+                <li>аяаяаяая</li>
+                <li>аывафыва</li>
+                <li>43вваыаеп</li>
+            </ul>
+        </aside>
+        <div class="windows-foot">НИЗ</div>
+    </div>
+
+    <footer>
+        <div class="foot">
+            <p class="gray">#{lcl.developer_info}</p>
+        </div>
+    </footer>
+</h:body>
+
+</html>
