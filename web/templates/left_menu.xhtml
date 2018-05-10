@@ -11,15 +11,14 @@
 
 <h:body>
     <ui:composition>
-        <h3>Жанры:</h3>
-        <ul>
-            <li>blahblah</li>
-            <li>blahblah</li>
-            <li>blahblah</li>
-            <li>аяаяаяая</li>
-            <li>аывафыва</li>
-            <li>43вваыаеп</li>
-        </ul>
+        <h3>#{lcl.genres}:</h3>
+
+        <h:dataTable value="#{genres.genreList}" var="g">
+            <h:column>
+                #{g.name}
+            </h:column>
+        </h:dataTable>
+
     </ui:composition>
     
 </h:body>
