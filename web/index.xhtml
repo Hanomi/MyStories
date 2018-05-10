@@ -3,22 +3,21 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
-    <title>#{lcl.index_title}</title>
-    <meta charset="utf-8"/>
-    <h:outputStylesheet library="css" name="style.css"/>
+    <title>Title</title>
 </h:head>
 
 <h:body>
-    <header>
-        <div class="head">
-            <h2>#{lcl.welcome_title}</h2>
-        </div>
-    </header>
-    <div class="general">
-        <div class="conntent">
+    <ui:composition template="/templates/library_template.xhtml">
+
+        <ui:define name="title">
+            #{lcl.index_title}
+        </ui:define>
+
+        <ui:define name="content">
             <p>#{lcl.input_info}</p>
             <h:form>
                 #{lcl.input_name}:
@@ -29,28 +28,8 @@
                 <h:commandButton action="#{loginController.login}" value="#{lcl.enter}"/>
                 <p><h:message for="username" styleClass="error"/></p>
             </h:form>
-        </div>
-        <aside id="menu" class="leftmenu" role="complementary">
-            <h3>Жанры:</h3>
-            <ul>
-                <li>blahblah</li>
-                <li>blahblah</li>
-                <li>blahblah</li>
-                <li>аяаяаяая</li>
-                <li>аывафыва</li>
-                <li>43вваыаеп</li>
-            </ul>
-        </aside>
-        <div class="windows-foot">
-            <p>низ окна...</p>
-        </div>
-    </div>
+        </ui:define>
 
-    <footer>
-        <div class="foot">
-            <p class="gray">#{lcl.developer_info}</p>
-        </div>
-    </footer>
+    </ui:composition>
 </h:body>
-
 </html>
