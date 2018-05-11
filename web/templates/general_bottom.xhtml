@@ -12,7 +12,7 @@
 
 <h:body>
     <ui:composition>
-        <h:form styleClass="letters">
+        <h:form id="letters_form" styleClass="letters">
             <ui:repeat value="#{searchController.letters}" var="letter">
                 <h:commandLink action="#{searchController.fillBooksByLetter()}"
                                value="#{letter}"

@@ -15,10 +15,10 @@
         <h3>#{lcl.genres}:</h3>
         <h:form styleClass="genres">
             <ui:repeat value="#{genreController.genreList}" var="g">
-                <h:commandLink action="#{searchController.fillBooksByGenre()}"
-                               value="#{g.name}"
+                <h:commandLink value="#{g.name}"
                                styleClass="#{g.id == searchController.selectedGenre ? 'genres_selected' : 'genres'}">
                     <f:param name="genre_id" value="#{g.id}"/>
+                    <f:ajax onevent="showProgress" event="click" render="@form :book_list :letters_form :pager_down :books_count" listener="#{searchController.fillBooksByGenre()}"/>
                 </h:commandLink>
             </ui:repeat>
         </h:form>

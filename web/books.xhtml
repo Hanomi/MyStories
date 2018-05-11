@@ -19,8 +19,11 @@
         </ui:define>
 
         <ui:define name="content">
-            <p><strong>#{lcl.book_count}: #{searchController.booksFounded()}</strong></p>
-            <h:dataTable value="#{searchController.bookListPage}" var="b" columnClasses="col1, col2, col3">
+            <p><strong>
+                <h:outputText value="#{lcl.book_count} #{searchController.booksFounded()}" id="books_count"/>
+            </strong></p>
+            <h:dataTable id="book_list" value="#{searchController.bookListPage}" var="b"
+                         columnClasses="col1, col2, col3">
                 <h:column>
                     <h:graphicImage value="/image?id=#{b.id}" width="120"/>
                 </h:column>
@@ -42,6 +45,7 @@
                 </h:column>
             </h:dataTable>
             <div>
+                <h:panelGroup id="pager_down">
                 <h:form rendered="#{searchController.showPager()}">
                     <p>#{lcl.pager}:</p>
                     <ui:repeat value="#{searchController.pageNumber()}" var="pageNumber">
@@ -52,6 +56,7 @@
                         </h:commandLink>
                     </ui:repeat>
                 </h:form>
+                </h:panelGroup>
             </div>
         </ui:define>
 

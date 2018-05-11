@@ -13,7 +13,7 @@
     <ui:composition>
         <div class="head">
             <h:graphicImage library="images" name="my-story.png"/>
-            <h5>#{lcl.welcome_title}, #{user.username}</h5>
+            <h3>#{lcl.welcome_title}, #{user.username}</h3>
             <h:form>
                 <h:commandButton action="#{loginController.exit()}" value="#{lcl.exit}"/>
             </h:form>

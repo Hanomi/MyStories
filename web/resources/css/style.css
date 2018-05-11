@@ -14,6 +14,14 @@ header {
     background: #999999;
 }
 
+.loading {
+    position: absolute;
+    background: #f57777;
+    top: 5%;
+    left: 50%;
+    display: none;
+}
+
 .head {
     width: 1020px;
     height: 100%;
