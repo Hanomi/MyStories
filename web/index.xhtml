@@ -27,9 +27,11 @@
                         <h:inputText id="username" value="#{user.username}" required="true"
                                      requiredMessage="#{lcl.login_required}">
                             <f:validator validatorId="loginValidator"/>
+                            <f:ajax event="keyup" render="loginError"/>
                         </h:inputText>
-                        <h:commandButton action="#{loginController.login}" value="#{lcl.enter}"/>
-                        <p><h:message for="username" styleClass="error"/></p>
+                        <h:commandButton action="#{loginController.login}"
+                                         value="#{lcl.enter}"/>
+                        <p><h:message id="loginError" for="username" styleClass="error"/></p>
             </h:form>
 
         </div>
