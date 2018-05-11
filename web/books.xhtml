@@ -26,7 +26,7 @@
                 </h:column>
                 <h:column>
                     <div>
-                        <p><h:outputLink value="/read?id=#{b.id}">#{b.name}</h:outputLink></p>
+                        <p><h:outputLink value="#{request.contextPath}/read?id=#{b.id}">#{b.name}</h:outputLink></p>
                         <p>#{lcl.author_name}: #{b.author}</p>
                         <p>#{lcl.page_count}: #{b.pageCount}</p>
                         <p>#{lcl.publisher}: #{b.publisher}</p>
