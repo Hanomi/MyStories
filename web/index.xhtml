@@ -3,33 +3,41 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:f="http://java.sun.com/jsf/core">
 
 <h:head>
-    <title>Title</title>
+    <title>#{lcl.index_title}</title>
+    <meta charset="utf-8"/>
+    <h:outputStylesheet library="css" name="index.css"/>
 </h:head>
 
 <h:body>
-    <ui:composition template="/templates/library_template.xhtml">
+    <div class="main">
 
-        <ui:define name="title">
-            #{lcl.index_title}
-        </ui:define>
+        <div class="content">
+            <p class="title"><h:graphicImage library="images" name="my-story.png" width="150" style="background: #999999"/></p>
+            <p class="title">#{lcl.welcome_title}</p>
+        </div>
 
-        <ui:define name="content">
-            <p>#{lcl.input_info}</p>
-            <h:form>
-                #{lcl.input_name}:
-                <h:inputText id="username" value="#{user.username}" required="true"
-                             requiredMessage="#{lcl.login_required}">
-                    <f:validator validatorId="loginValidator"/>
-                </h:inputText>
-                <h:commandButton action="#{loginController.login}" value="#{lcl.enter}"/>
-                <p><h:message for="username" styleClass="error"/></p>
+        <div class="login_div">
+            <p class="title">#{lcl.input_info}</p>
+
+            <h:form styleClass="login_form">
+                        #{lcl.input_name}:
+                        <h:inputText id="username" value="#{user.username}" required="true"
+                                     requiredMessage="#{lcl.login_required}">
+                            <f:validator validatorId="loginValidator"/>
+                        </h:inputText>
+                        <h:commandButton action="#{loginController.login}" value="#{lcl.enter}"/>
+                        <p><h:message for="username" styleClass="error"/></p>
             </h:form>
-        </ui:define>
 
-    </ui:composition>
+        </div>
+
+        <div class="footer">
+            #{lcl.developer_info}
+        </div>
+    </div>
+
 </h:body>
 </html>
