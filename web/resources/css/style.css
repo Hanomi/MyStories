@@ -88,10 +88,6 @@ footer {
     clear: both;
 }
 
-.genres:hover, .genres:active, .genres:focus {
-     color: #999;
- }
-
 .genres, .genres:visited {
     padding: 3px 3px 3px 1px;
     display: block;
@@ -106,7 +102,7 @@ footer {
     color: red;
 }
 
-.letter:hover, .letter:active, .letter:focus {
+.genres:hover, .genres:active, .genres:focus {
     color: #999;
 }
 
@@ -124,6 +120,10 @@ footer {
     float: left;
     text-decoration: none;
     color: red;
+}
+
+.letter:hover, .letter:active, .letter:focus {
+    color: #999;
 }
 
 .error {

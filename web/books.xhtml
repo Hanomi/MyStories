@@ -43,7 +43,7 @@
             </h:dataTable>
             <div>
                 <h:form rendered="#{searchController.showPager()}">
-                    #{lcl.pager}:
+                    <p>#{lcl.pager}:</p>
                     <ui:repeat value="#{searchController.pageNumber()}" var="pageNumber">
                         <h:commandLink value="#{pageNumber}"
                                        action="#{searchController.selectPage()}"
