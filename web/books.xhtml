@@ -19,8 +19,8 @@
         </ui:define>
 
         <ui:define name="content">
-            <p><strong>#{lcl.book_count}: #{searchController.bookList.size()}</strong></p>
-            <h:dataTable value="#{searchController.bookList}" var="b" columnClasses="col1, col2, col3">
+            <p><strong>#{lcl.book_count}: #{searchController.booksFounded()}</strong></p>
+            <h:dataTable value="#{searchController.bookListPage}" var="b" columnClasses="col1, col2, col3">
                 <h:column>
                     <h:graphicImage value="/image?id=#{b.id}" width="120"/>
                 </h:column>
@@ -41,6 +41,18 @@
                     </div>
                 </h:column>
             </h:dataTable>
+            <div>
+                <h:form rendered="#{searchController.showPager()}">
+                    #{lcl.pager}:
+                    <ui:repeat value="#{searchController.pageNumber()}" var="pageNumber">
+                        <h:commandLink value="#{pageNumber}"
+                                       action="#{searchController.selectPage()}"
+                                       styleClass="#{pageNumber == searchController.selectedPage ? 'letter_selected' : 'letter'}">
+                            <f:param name="page_number" value="#{pageNumber}"/>
+                        </h:commandLink>
+                    </ui:repeat>
+                </h:form>
+            </div>
         </ui:define>
 
     </ui:composition>

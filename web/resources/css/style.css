@@ -88,24 +88,29 @@ footer {
     clear: both;
 }
 
-.genres a:hover, a:active a:focus {
-    background-color: #fff;
-    color: #999;
-}
+.genres:hover, .genres:active, .genres:focus {
+     color: #999;
+ }
 
-.genres a, a:visited {
+.genres, .genres:visited {
     padding: 3px 3px 3px 1px;
     display: block;
     text-decoration: none;
     color: #000
 }
 
-.letters a:hover, a:active a:focus {
-    background-color: #fff;
+.genres_selected {
+    padding: 3px 3px 3px 1px;
+    display: block;
+    text-decoration: none;
+    color: red;
+}
+
+.letter:hover, .letter:active, .letter:focus {
     color: #999;
 }
 
-.letters a, a:visited {
+.letter, .letter:visited {
     padding: 3px 3px 3px 1px;
     display: block;
     float: left;
@@ -113,7 +118,16 @@ footer {
     color: #000
 }
 
+.letter_selected {
+    padding: 3px 3px 3px 1px;
+    display: block;
+    float: left;
+    text-decoration: none;
+    color: red;
+}
+
 .error {
     color: #ff0000;
     font-style: italic;
 }
+

@@ -14,7 +14,9 @@
     <ui:composition>
         <h:form styleClass="letters">
             <ui:repeat value="#{searchController.letters}" var="letter">
-                <h:commandLink action="#{searchController.fillBooksByLetter()}" value="#{letter}">
+                <h:commandLink action="#{searchController.fillBooksByLetter()}"
+                               value="#{letter}"
+                               styleClass="#{letter == searchController.selectedLetter ? 'letter_selected' : 'letter'}">
                     <f:param name="letter" value="#{letter}"/>
                 </h:commandLink>
             </ui:repeat>
