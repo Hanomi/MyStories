@@ -50,9 +50,11 @@
                     <p>#{lcl.pager}:</p>
                     <ui:repeat value="#{searchController.pageNumber()}" var="pageNumber">
                         <h:commandLink value="#{pageNumber}"
-                                       action="#{searchController.selectPage()}"
                                        styleClass="#{pageNumber == searchController.selectedPage ? 'letter_selected' : 'letter'}">
                             <f:param name="page_number" value="#{pageNumber}"/>
+                            <f:ajax onevent="showProgress" event="click"
+                                    render="@form :book_list"
+                                    listener="#{searchController.selectPage()}"/>
                         </h:commandLink>
                     </ui:repeat>
                 </h:form>

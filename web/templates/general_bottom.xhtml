@@ -14,10 +14,12 @@
     <ui:composition>
         <h:form id="letters_form" styleClass="letters">
             <ui:repeat value="#{searchController.letters}" var="letter">
-                <h:commandLink action="#{searchController.fillBooksByLetter()}"
-                               value="#{letter}"
+                <h:commandLink value="#{letter}"
                                styleClass="#{letter == searchController.selectedLetter ? 'letter_selected' : 'letter'}">
                     <f:param name="letter" value="#{letter}"/>
+                    <f:ajax onevent="showProgress" event="click"
+                            render="@form :book_list :genres_list :pager_down :books_count"
+                            listener="#{searchController.fillBooksByLetter()}"/>
                 </h:commandLink>
             </ui:repeat>
         </h:form>
