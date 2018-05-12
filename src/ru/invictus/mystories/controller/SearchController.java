@@ -20,7 +20,6 @@ import java.util.logging.Logger;
 @SessionScoped
 public class SearchController implements Serializable {
     private SearchType searchType;
-    private static Map<String, SearchType> searchMap;
     private List<Book> bookList;
     private List<Book> bookListPage;
     private String searchString;
@@ -29,10 +28,6 @@ public class SearchController implements Serializable {
     private static final int BOOKS_ON_PAGE = 3;
 
     static {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.localisation", FacesContext.getCurrentInstance().getViewRoot().getLocale());
-        searchMap = new HashMap<>();
-        searchMap.put(resourceBundle.getString("author_name"), SearchType.AUTHOR);
-        searchMap.put(resourceBundle.getString("book_name"), SearchType.TITLE);
         logger = Logger.getLogger(SearchController.class.getName());
         letters = new TreeSet<>();
 
@@ -116,10 +111,6 @@ public class SearchController implements Serializable {
 
     public SearchType getSearchType() {
         return searchType;
-    }
-
-    public Map<String, SearchType> getSearchMap() {
-        return searchMap;
     }
 
     public int booksFounded() {

@@ -17,6 +17,10 @@
             <h:form>
                 <h:commandButton action="#{loginController.exit()}" value="#{lcl.exit}"/>
             </h:form>
+            <h:form>
+                <h:commandButton action="#{localeChanger.changeLocale('en')}" value="EN"/>
+                <h:commandButton action="#{localeChanger.changeLocale('ru')}" value="RU"/>
+            </h:form>
 
             <h:form styleClass="search_form">
                 <h:inputText id="search_string" value="#{searchController.searchString}"/>
@@ -26,7 +30,7 @@
                             listener="#{searchController.fillBooksBySearch()}"/>
                 </h:commandButton>
                 <h:selectOneMenu value="#{searchController.searchType}">
-                    <f:selectItems value="#{searchController.searchMap}"/>
+                    <f:selectItems value="#{searchTypeController.searchMap}"/>
                 </h:selectOneMenu>
             </h:form>
         </div>
