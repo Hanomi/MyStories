@@ -1,14 +1,7 @@
 package ru.invictus.mystories.beans;
 
-import ru.invictus.mystories.db.Database;
-
 import java.io.Serializable;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Book implements Serializable {
     private int id;

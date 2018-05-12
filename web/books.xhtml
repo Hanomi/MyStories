@@ -22,39 +22,96 @@
             <p><strong>
                 <h:outputText value="#{lcl.book_count} #{searchController.booksFounded()}" id="books_count"/>
             </strong></p>
-            <h:dataTable id="book_list" value="#{searchController.bookListPage}" var="b"
-                         columnClasses="col1, col2, col3">
-                <h:column>
-                    <h:graphicImage value="/image?id=#{b.id}" width="120"/>
-                </h:column>
-                <h:column>
-                    <div>
-                        <p><strong>#{b.name}</strong></p>
-                        <p>#{lcl.author_name}: #{b.author}</p>
-                        <p>#{lcl.page_count}: #{b.pageCount}</p>
-                        <p>#{lcl.publisher}: #{b.publisher}</p>
-                        <p>#{lcl.publishDate}: #{b.publishDate}</p>
-                        <p>#{lcl.isbn}: #{b.isbn}</p>
-                        <p>
-                            <h:outputLink value="#{request.contextPath}/read" target="_blank">
-                                <h:outputText value="#{lcl.read}"/>
-                                <f:param name="id" value="#{b.id}"/>
-                            </h:outputLink>
-                            <h:outputLink value="#{request.contextPath}/download" target="_blank">
-                                <h:outputText value="#{lcl.download}"/>
-                                <f:param name="id" value="#{b.id}"/>
-                                <f:param name="filename" value="#{b.name}"/>
-                            </h:outputLink>
-                        </p>
-                    </div>
-                </h:column>
-                <h:column>
-                    <div class="description">
-                        <p><strong>#{lcl.description}:</strong></p>
-                        <p>#{b.description}</p>
-                    </div>
-                </h:column>
-            </h:dataTable>
+
+            <h:form id="booksForm">
+
+                <h:panelGroup id="adminTools">
+                    <h:commandLink rendered="#{!searchController.editMode}">
+                        <h:outputText value="#{lcl.add}"/>
+                        <f:ajax onevent="showProgress" execute="@form" render="@form"/>
+                    </h:commandLink>
+                    <h:commandLink action="#{searchController.switchEditMode}" rendered="#{!searchController.editMode}">
+                        <h:outputText value="#{lcl.edit}"/>
+                        <f:ajax onevent="showProgress" execute="@form" render="@form"/>
+                    </h:commandLink>
+                    <h:commandButton action="#{searchController.updateBooks}"
+                                   rendered="#{searchController.editMode}"
+                                   value="#{lcl.save}">
+                        <f:ajax execute="@form" render="@form"/>
+                    </h:commandButton>
+                    <h:commandButton immediate="true" action="#{searchController.switchEditMode}"
+                                   rendered="#{searchController.editMode}"
+                                   value="#{lcl.cancel}">
+                        <f:ajax execute="@form" render="@form"/>
+                    </h:commandButton>
+                </h:panelGroup>
+
+
+                <h:dataTable id="book_list" value="#{searchController.bookListPage}" var="b"
+                             columnClasses="col1, col2, col3">
+                    <h:column>
+                        <h:graphicImage value="/image?id=#{b.id}" width="120"/>
+                    </h:column>
+                    <h:column>
+                        <div>
+                            <p>
+                                <strong>
+                                    <h:outputText value="#{b.name}" rendered="#{!searchController.editMode}"/>
+                                    <h:inputText value="#{b.name}" rendered="#{searchController.editMode}"/>
+                                </strong>
+                            </p>
+                            <p>
+                                <strong>#{lcl.author_name}: </strong>
+                                <h:outputText value="#{b.author}" rendered="#{!searchController.editMode}"/>
+                                <h:inputText value="#{b.author}" rendered="#{searchController.editMode}"/>
+                            </p>
+                            <p>
+                                <strong>#{lcl.page_count}: </strong>
+                                <h:outputText value="#{b.pageCount}" rendered="#{!searchController.editMode}"/>
+                                <h:inputText value="#{b.pageCount}" rendered="#{searchController.editMode}"/>
+                            </p>
+                            <p>
+                                <strong>#{lcl.publisher}: </strong>
+                                <h:outputText value="#{b.publisher}" rendered="#{!searchController.editMode}"/>
+                                <h:inputText value="#{b.publisher}" rendered="#{searchController.editMode}"/>
+                            </p>
+                            <p>
+                                <strong>#{lcl.publishDate}: </strong>
+                                <h:outputText value="#{b.publishDate}" rendered="#{!searchController.editMode}"/>
+                            </p>
+                            <p>
+                                <strong>#{lcl.isbn}: </strong>
+                                <h:outputText value="#{b.isbn}" rendered="#{!searchController.editMode}"/>
+                                <h:inputText value="#{b.isbn}" rendered="#{searchController.editMode}"/>
+                            </p>
+                            <p>
+                                <h:panelGroup rendered="#{!searchController.editMode}">
+                                    <h:outputLink value="#{request.contextPath}/read" target="_blank">
+                                        <h:outputText value="#{lcl.read}"/>
+                                        <f:param name="id" value="#{b.id}"/>
+                                    </h:outputLink>
+                                    <h:outputLink value="#{request.contextPath}/download" target="_blank">
+                                        <h:outputText value="#{lcl.download}"/>
+                                        <f:param name="id" value="#{b.id}"/>
+                                        <f:param name="filename" value="#{b.name}"/>
+                                    </h:outputLink>
+                                </h:panelGroup>
+                            </p>
+                        </div>
+                    </h:column>
+                    <h:column>
+                        <div class="description">
+                            <strong>#{lcl.description}: </strong>
+                            <h:outputText value="#{b.description}" rendered="#{!searchController.editMode}"/>
+                            <h:inputText value="#{b.description}" rendered="#{searchController.editMode}"/>
+                        </div>
+                    </h:column>
+                </h:dataTable>
+
+
+            </h:form>
+
+
             <div>
                 <h:panelGroup id="pager_down">
                     <h:form rendered="#{searchController.showPager()}">
@@ -64,7 +121,7 @@
                                            styleClass="#{pageNumber == searchController.selectedPage ? 'letter_selected' : 'letter'}">
                                 <f:param name="page_number" value="#{pageNumber}"/>
                                 <f:ajax onevent="showProgress" event="click"
-                                        render="@form :book_list"
+                                        render="@form :booksForm:book_list"
                                         listener="#{searchController.selectPage()}"/>
                             </h:commandLink>
                         </ui:repeat>

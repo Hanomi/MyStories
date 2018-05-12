@@ -9,6 +9,7 @@ import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -26,6 +27,10 @@ public class SearchController implements Serializable {
     private static final Logger logger;
     private static Set<Character> letters;
     private static final int BOOKS_ON_PAGE = 3;
+    private String selectedPage;
+    private String selectedLetter;
+    private String selectedGenre;
+    private boolean editMode;
 
     static {
         logger = Logger.getLogger(SearchController.class.getName());
@@ -44,14 +49,16 @@ public class SearchController implements Serializable {
         }
     }
 
-    private String selectedPage;
-    private String selectedLetter;
-    private String selectedGenre;
-
     public SearchController() {
         bookList = new ArrayList<>();
         bookListPage = new ArrayList<>(BOOKS_ON_PAGE);
+        editMode = false;
     }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
 
     public List<Book> getBookListPage() {
         return bookListPage;
@@ -218,6 +225,29 @@ public class SearchController implements Serializable {
         } catch (IndexOutOfBoundsException e) {
             // ignore limit
         }
+    }
+
+    public String updateBooks() {
+        String sql = "UPDATE mystory.book SET name=?, isbn=?, page_count=?, description=? where id=?";
+        try (PreparedStatement preparedStatement = Database.getConnection().prepareStatement(sql)) {
+            for (Book book : bookListPage) {
+                preparedStatement.setString(1, book.getName());
+                preparedStatement.setString(2, book.getIsbn());
+                preparedStatement.setInt(3, book.getPageCount());
+                preparedStatement.setString(4, book.getDescription());
+                preparedStatement.setInt(5, book.getId());
+                preparedStatement.addBatch();
+            }
+            preparedStatement.executeBatch();
+        } catch (SQLException e) {
+            Logger.getLogger(Book.class.getName()).log(Level.SEVERE, null, e);
+        }
+        switchEditMode();
+        return "books";
+    }
+
+    public void switchEditMode() {
+        editMode = !editMode;
     }
 
     public String getSelectedPage() {
