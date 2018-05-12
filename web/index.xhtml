@@ -5,6 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core">
 
+<f:view locale="#{localeChanger.currentLocale}">
 <h:head>
     <title>#{lcl.index_title}</title>
     <meta charset="utf-8"/>
@@ -17,6 +18,10 @@
         <div class="content">
             <p class="title"><h:graphicImage library="images" name="my-story.png" width="150" style="background: #999999"/></p>
             <p class="title">#{lcl.welcome_title}</p>
+            <h:form>
+                <h:commandButton action="#{localeChanger.changeLocale('en')}" value="EN"/>
+                <h:commandButton action="#{localeChanger.changeLocale('ru')}" value="RU"/>
+            </h:form>
         </div>
 
         <div class="login_div">
@@ -42,4 +47,5 @@
     </div>
 
 </h:body>
+</f:view>
 </html>

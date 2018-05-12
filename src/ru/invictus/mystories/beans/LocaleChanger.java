@@ -10,7 +10,7 @@ import java.util.Locale;
 @SessionScoped
 public class LocaleChanger implements Serializable {
 
-    private Locale currentLocale = FacesContext.getCurrentInstance().getViewRoot().getLocale();
+    private Locale currentLocale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
 
     public LocaleChanger() {}
 
