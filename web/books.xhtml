@@ -29,12 +29,23 @@
                 </h:column>
                 <h:column>
                     <div>
-                        <p><h:outputLink value="#{request.contextPath}/read?id=#{b.id}">#{b.name}</h:outputLink></p>
+                        <p><strong>#{b.name}</strong></p>
                         <p>#{lcl.author_name}: #{b.author}</p>
                         <p>#{lcl.page_count}: #{b.pageCount}</p>
                         <p>#{lcl.publisher}: #{b.publisher}</p>
                         <p>#{lcl.publishDate}: #{b.publishDate}</p>
                         <p>#{lcl.isbn}: #{b.isbn}</p>
+                        <p>
+                            <h:outputLink value="#{request.contextPath}/read" target="_blank">
+                                <h:outputText value="#{lcl.read}"/>
+                                <f:param name="id" value="#{b.id}"/>
+                            </h:outputLink>
+                            <h:outputLink value="#{request.contextPath}/download" target="_blank">
+                                <h:outputText value="#{lcl.download}"/>
+                                <f:param name="id" value="#{b.id}"/>
+                                <f:param name="filename" value="#{b.name}"/>
+                            </h:outputLink>
+                        </p>
                     </div>
                 </h:column>
                 <h:column>
@@ -46,18 +57,18 @@
             </h:dataTable>
             <div>
                 <h:panelGroup id="pager_down">
-                <h:form rendered="#{searchController.showPager()}">
-                    <p>#{lcl.pager}:</p>
-                    <ui:repeat value="#{searchController.pageNumber()}" var="pageNumber">
-                        <h:commandLink value="#{pageNumber}"
-                                       styleClass="#{pageNumber == searchController.selectedPage ? 'letter_selected' : 'letter'}">
-                            <f:param name="page_number" value="#{pageNumber}"/>
-                            <f:ajax onevent="showProgress" event="click"
-                                    render="@form :book_list"
-                                    listener="#{searchController.selectPage()}"/>
-                        </h:commandLink>
-                    </ui:repeat>
-                </h:form>
+                    <h:form rendered="#{searchController.showPager()}">
+                        <p>#{lcl.pager}:</p>
+                        <ui:repeat value="#{searchController.pageNumber()}" var="pageNumber">
+                            <h:commandLink value="#{pageNumber}"
+                                           styleClass="#{pageNumber == searchController.selectedPage ? 'letter_selected' : 'letter'}">
+                                <f:param name="page_number" value="#{pageNumber}"/>
+                                <f:ajax onevent="showProgress" event="click"
+                                        render="@form :book_list"
+                                        listener="#{searchController.selectPage()}"/>
+                            </h:commandLink>
+                        </ui:repeat>
+                    </h:form>
                 </h:panelGroup>
             </div>
         </ui:define>
