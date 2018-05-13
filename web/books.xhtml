@@ -34,7 +34,7 @@
 
             <h:form id="booksForm">
 
-                <h:panelGroup id="adminTools">
+                <h:panelGroup id="adminTools" rendered="#{request.isUserInRole('admin')}">
                     <h:commandLink rendered="#{!searchController.editMode}">
                         <h:outputText value="#{lcl.add}"/>
                         <f:ajax onevent="showProgress" execute="@form" render="@form"/>
@@ -59,7 +59,7 @@
                 <h:dataTable id="book_list" value="#{searchController.bookListPage}" var="b"
                              columnClasses="col1, col2, col3">
                     <h:column>
-                        <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{!searchController.editMode}"/>
+                        <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{request.isUserInRole('admin') and !searchController.editMode}"/>
                         <h:graphicImage value="/image?id=#{b.id}" width="120"/>
                     </h:column>
                     <h:column>

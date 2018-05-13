@@ -36,6 +36,7 @@
 
     <login-config>
         <auth-method>FORM</auth-method>
+        <realm-name>jdbc-realm</realm-name>
         <form-login-config>
             <form-login-page>/index.xhtml</form-login-page>
             <form-error-page>/index.xhtml</form-error-page>
@@ -51,5 +52,9 @@
             <role-name>admin</role-name>
             <role-name>user</role-name>
         </auth-constraint>
+        <user-data-constraint>
+            <description/>
+            <transport-guarantee>NONE</transport-guarantee>
+        </user-data-constraint>
     </security-constraint>
 </web-app>
