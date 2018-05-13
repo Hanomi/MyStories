@@ -18,7 +18,7 @@
                                styleClass="#{letter == searchController.selectedLetter ? 'letter_selected' : 'letter'}">
                     <f:param name="letter" value="#{letter}"/>
                     <f:ajax onevent="showProgress" event="click"
-                            render="@form :book_list :genres_list :pager_down :books_count"
+                            render="@form :booksForm:book_list :genres_list :pager_down :books_count"
                             listener="#{searchController.fillBooksByLetter()}"/>
                 </h:commandLink>
             </ui:repeat>

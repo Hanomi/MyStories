@@ -28,7 +28,7 @@
                 </h:inputText>
                 <h:commandButton value="#{lcl.search}">
                     <f:ajax onevent="showProgress" execute="@form"
-                            render="@form :book_list :genres_list :pager_down :books_count :letters_form"
+                            render="@form :booksForm:book_list :genres_list :pager_down :books_count :letters_form"
                             listener="#{searchController.fillBooksBySearch()}"/>
                 </h:commandButton>
                 <h:selectOneMenu value="#{searchController.searchType}">
