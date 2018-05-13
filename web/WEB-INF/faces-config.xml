@@ -32,6 +32,10 @@
             <to-view-id>/index.xhtml</to-view-id>
             <redirect/>
         </navigation-case>
+        <navigation-case>
+            <from-outcome>books</from-outcome>
+            <to-view-id>/books.xhtml</to-view-id>
+        </navigation-case>
     </navigation-rule>
 
 </faces-config>
