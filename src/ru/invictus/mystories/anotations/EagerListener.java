@@ -1,4 +1,4 @@
-package ru.invictus.mystories.intergaces;
+package ru.invictus.mystories.anotations;
 
 import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.util.AnnotationLiteral;

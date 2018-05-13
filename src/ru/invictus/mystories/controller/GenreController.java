@@ -2,7 +2,7 @@ package ru.invictus.mystories.controller;
 
 import ru.invictus.mystories.beans.Genre;
 import ru.invictus.mystories.db.Database;
-import ru.invictus.mystories.intergaces.Eager;
+import ru.invictus.mystories.anotations.Eager;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
