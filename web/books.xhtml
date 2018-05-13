@@ -19,9 +19,18 @@
         </ui:define>
 
         <ui:define name="content">
-            <p><strong>
-                <h:outputText value="#{lcl.book_count} #{searchController.bookListSize}" id="books_count"/>
-            </strong></p>
+            <h:form>
+                <h:selectOneMenu value="#{searchController.booksOnPage}" valueChangeListener="#{searchController.changeBooksOnPage}">
+                    <f:selectItem itemValue="1"/>
+                    <f:selectItem itemValue="2"/>
+                    <f:selectItem itemValue="3"/>
+                    <f:selectItem itemValue="5"/>
+                    <f:selectItem itemValue="10"/>
+                    <f:ajax event="change" execute="@form" onevent="showProgress" render=":booksForm :booksForm:book_list :pager_down"/>
+
+                </h:selectOneMenu>
+                <strong><h:outputText value="#{lcl.book_count} #{searchController.bookListSize}" id="books_count"/></strong>
+            </h:form>
 
             <h:form id="booksForm">
 
@@ -35,13 +44,13 @@
                         <f:ajax onevent="showProgress" execute="@form" render="@form"/>
                     </h:commandLink>
                     <h:commandButton action="#{searchController.updateBooks}"
-                                   rendered="#{searchController.editMode}"
-                                   value="#{lcl.save}">
+                                     rendered="#{searchController.editMode}"
+                                     value="#{lcl.save}">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
                     <h:commandButton immediate="true" action="#{searchController.cancelEditMode}"
-                                   rendered="#{searchController.editMode}"
-                                   value="#{lcl.cancel}">
+                                     rendered="#{searchController.editMode}"
+                                     value="#{lcl.cancel}">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
                 </h:panelGroup>

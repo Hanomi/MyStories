@@ -7,6 +7,7 @@ import ru.invictus.mystories.utils.SearchType;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.sql.PreparedStatement;
@@ -25,7 +26,7 @@ public class SearchController implements Serializable {
     private String searchString;
     private static final Logger logger;
     private static Set<Character> letters;
-    private static final int BOOKS_ON_PAGE = 3;
+    private int booksOnPage = 3;
     private Integer selectedPage;
     private String selectedLetter;
     private String selectedGenre;
@@ -48,6 +49,14 @@ public class SearchController implements Serializable {
                 logger.log(Level.SEVERE, null, e);
             }
         }
+    }
+
+    public int getBooksOnPage() {
+        return booksOnPage;
+    }
+
+    public void setBooksOnPage(int booksOnPage) {
+        this.booksOnPage = booksOnPage;
     }
 
     public int getBookListSize() {
@@ -83,8 +92,9 @@ public class SearchController implements Serializable {
             }
         }
 
+        editMode = false;
         bookListPage.clear();
-        String sql = lastSql + " LIMIT " + (BOOKS_ON_PAGE*selectedPage - BOOKS_ON_PAGE) + "," + BOOKS_ON_PAGE;
+        String sql = lastSql + " LIMIT " + (booksOnPage *selectedPage - booksOnPage) + "," + booksOnPage;
         try (Statement statement = Database.getConnection().createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
             while (resultSet.next()) {
@@ -106,7 +116,7 @@ public class SearchController implements Serializable {
     }
 
     public boolean showPager() {
-        return bookListSize > BOOKS_ON_PAGE;
+        return bookListSize > booksOnPage;
     }
 
 
@@ -200,7 +210,7 @@ public class SearchController implements Serializable {
     }
 
     public List<Integer> pageNumber() {
-        int size = (int) Math.ceil((double) bookListSize / BOOKS_ON_PAGE);
+        int size = (int) Math.ceil((double) bookListSize / booksOnPage);
         List<Integer> list = new ArrayList<>();
         list.add(1);
         for (int i = 1; i < size; i++) {
@@ -213,6 +223,12 @@ public class SearchController implements Serializable {
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         selectedPage = Integer.parseInt(params.get("page_number"));
         getBooks(false);
+    }
+
+    public void changeBooksOnPage(ValueChangeEvent event) {
+        selectedPage = 1;
+        booksOnPage = Integer.parseInt(event.getNewValue().toString());
+        if (lastSql != null) getBooks(true);
     }
 
     public String updateBooks() {
