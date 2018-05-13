@@ -13,6 +13,7 @@ public class Book implements Serializable {
     private Date publishDate;
     private String publisher;
     private String description;
+    private Boolean edit;
 
     public int getId() {
         return id;
@@ -84,5 +85,13 @@ public class Book implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setEdit(Boolean edit) {
+        this.edit = edit;
+    }
+
+    public Boolean getEdit() {
+        return edit;
     }
 }

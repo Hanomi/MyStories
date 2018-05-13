@@ -20,7 +20,7 @@
 
         <ui:define name="content">
             <p><strong>
-                <h:outputText value="#{lcl.book_count} #{searchController.booksFounded()}" id="books_count"/>
+                <h:outputText value="#{lcl.book_count} #{searchController.bookListSize}" id="books_count"/>
             </strong></p>
 
             <h:form id="booksForm">
@@ -30,7 +30,7 @@
                         <h:outputText value="#{lcl.add}"/>
                         <f:ajax onevent="showProgress" execute="@form" render="@form"/>
                     </h:commandLink>
-                    <h:commandLink action="#{searchController.switchEditMode}" rendered="#{!searchController.editMode}">
+                    <h:commandLink action="#{searchController.enableEditMode}" rendered="#{!searchController.editMode}">
                         <h:outputText value="#{lcl.edit}"/>
                         <f:ajax onevent="showProgress" execute="@form" render="@form"/>
                     </h:commandLink>
@@ -39,7 +39,7 @@
                                    value="#{lcl.save}">
                         <f:ajax execute="@form" render="@form"/>
                     </h:commandButton>
-                    <h:commandButton immediate="true" action="#{searchController.switchEditMode}"
+                    <h:commandButton immediate="true" action="#{searchController.cancelEditMode}"
                                    rendered="#{searchController.editMode}"
                                    value="#{lcl.cancel}">
                         <f:ajax execute="@form" render="@form"/>
@@ -50,42 +50,43 @@
                 <h:dataTable id="book_list" value="#{searchController.bookListPage}" var="b"
                              columnClasses="col1, col2, col3">
                     <h:column>
+                        <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{!searchController.editMode}"/>
                         <h:graphicImage value="/image?id=#{b.id}" width="120"/>
                     </h:column>
                     <h:column>
                         <div>
                             <p>
                                 <strong>
-                                    <h:outputText value="#{b.name}" rendered="#{!searchController.editMode}"/>
-                                    <h:inputText value="#{b.name}" rendered="#{searchController.editMode}"/>
+                                    <h:outputText value="#{b.name}" rendered="#{!b.edit}"/>
+                                    <h:inputText value="#{b.name}" rendered="#{searchController.editMode and b.edit}"/>
                                 </strong>
                             </p>
                             <p>
                                 <strong>#{lcl.author_name}: </strong>
-                                <h:outputText value="#{b.author}" rendered="#{!searchController.editMode}"/>
-                                <h:inputText value="#{b.author}" rendered="#{searchController.editMode}"/>
+                                <h:outputText value="#{b.author}" rendered="#{!b.edit}"/>
+                                <h:inputText value="#{b.author}" rendered="#{searchController.editMode and b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.page_count}: </strong>
-                                <h:outputText value="#{b.pageCount}" rendered="#{!searchController.editMode}"/>
-                                <h:inputText value="#{b.pageCount}" rendered="#{searchController.editMode}"/>
+                                <h:outputText value="#{b.pageCount}" rendered="#{!b.edit}"/>
+                                <h:inputText value="#{b.pageCount}" rendered="#{searchController.editMode and b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.publisher}: </strong>
-                                <h:outputText value="#{b.publisher}" rendered="#{!searchController.editMode}"/>
-                                <h:inputText value="#{b.publisher}" rendered="#{searchController.editMode}"/>
+                                <h:outputText value="#{b.publisher}" rendered="#{!b.edit}"/>
+                                <h:inputText value="#{b.publisher}" rendered="#{searchController.editMode and b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.publishDate}: </strong>
-                                <h:outputText value="#{b.publishDate}" rendered="#{!searchController.editMode}"/>
+                                <h:outputText value="#{b.publishDate}" rendered="#{!b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.isbn}: </strong>
-                                <h:outputText value="#{b.isbn}" rendered="#{!searchController.editMode}"/>
-                                <h:inputText value="#{b.isbn}" rendered="#{searchController.editMode}"/>
+                                <h:outputText value="#{b.isbn}" rendered="#{!b.edit}"/>
+                                <h:inputText value="#{b.isbn}" rendered="#{searchController.editMode and b.edit}"/>
                             </p>
                             <p>
-                                <h:panelGroup rendered="#{!searchController.editMode}">
+                                <h:panelGroup rendered="#{!b.edit}">
                                     <h:outputLink value="#{request.contextPath}/read" target="_blank">
                                         <h:outputText value="#{lcl.read}"/>
                                         <f:param name="id" value="#{b.id}"/>
@@ -102,8 +103,8 @@
                     <h:column>
                         <div class="description">
                             <strong>#{lcl.description}: </strong>
-                            <h:outputText value="#{b.description}" rendered="#{!searchController.editMode}"/>
-                            <h:inputText value="#{b.description}" rendered="#{searchController.editMode}"/>
+                            <h:outputText value="#{b.description}" rendered="#{!b.edit}"/>
+                            <h:inputText value="#{b.description}" rendered="#{searchController.editMode and b.edit}"/>
                         </div>
                     </h:column>
                 </h:dataTable>
