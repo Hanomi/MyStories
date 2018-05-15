@@ -2,14 +2,17 @@ package ru.invictus.mystories.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "author", schema = "mystory", catalog = "")
-public class AuthorEntity {
+@Table(name = "author", schema = "mystory")
+public class Author {
     private long id;
     private String fio;
     private Date birthday;
+    private Set<Book> books = new HashSet<>(0);
 
     @Id
     @Column(name = "id")
@@ -41,19 +44,30 @@ public class AuthorEntity {
         this.birthday = birthday;
     }
 
+    @OneToMany
+    @JoinColumn(name = "author_id")
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AuthorEntity that = (AuthorEntity) o;
-        return id == that.id &&
-                Objects.equals(fio, that.fio) &&
-                Objects.equals(birthday, that.birthday);
+        if (!(o instanceof Author)) return false;
+        Author author = (Author) o;
+        return id == author.id &&
+                Objects.equals(fio, author.fio) &&
+                Objects.equals(birthday, author.birthday) &&
+                Objects.equals(books, author.books);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, fio, birthday);
+        return Objects.hash(id, fio, birthday, books);
     }
 }

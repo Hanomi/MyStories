@@ -2,11 +2,8 @@ package ru.invictus.mystories.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.criterion.MatchMode;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
-import ru.invictus.mystories.entity.GenreEntity;
+import ru.invictus.mystories.entity.Genre;
 import ru.invictus.mystories.entity.HibernateUtil;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -25,11 +22,11 @@ public enum DataHelper {
         return sessionFactory.getCurrentSession();
     }
 
-    public List<GenreEntity> getAllGenres() {
+    public List<Genre> getAllGenres() {
         final CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<GenreEntity> criteriaQuery = builder.createQuery(GenreEntity.class);
-        criteriaQuery.from(GenreEntity.class);
-        Query<GenreEntity> query = getSession().createQuery(criteriaQuery);
+        CriteriaQuery<Genre> criteriaQuery = builder.createQuery(Genre.class);
+        criteriaQuery.from(Genre.class);
+        Query<Genre> query = getSession().createQuery(criteriaQuery);
         return query.getResultList();
     }
 }

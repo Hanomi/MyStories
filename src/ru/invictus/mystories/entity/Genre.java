@@ -1,13 +1,16 @@
 package ru.invictus.mystories.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "genre", schema = "mystory")
-public class GenreEntity {
+public class Genre {
     private long id;
     private String name;
+    private Set<Book> books = new HashSet<>(0);
 
     @Id
     @Column(name = "id")
@@ -29,18 +32,29 @@ public class GenreEntity {
         this.name = name;
     }
 
+    @OneToMany
+    @JoinColumn(name = "genre_id")
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        GenreEntity that = (GenreEntity) o;
-        return id == that.id &&
-                Objects.equals(name, that.name);
+        if (!(o instanceof Genre)) return false;
+        Genre genre = (Genre) o;
+        return id == genre.id &&
+                Objects.equals(name, genre.name) &&
+                Objects.equals(books, genre.books);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name);
+        return Objects.hash(id, name, books);
     }
 }
