@@ -1,6 +1,7 @@
 package ru.invictus.mystories.servlets;
 
 import ru.invictus.mystories.controller.SearchController;
+import ru.invictus.mystories.db.DataHelper;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -26,8 +27,9 @@ public class SavePdf extends HttpServlet {
         resp.setContentType("application/pdf");
 
         try (OutputStream out = resp.getOutputStream()) {
-            String id = req.getParameter("id");
-            byte[] pdf = searchController.getData(id, FileType.PDF);
+            long id = Long.parseLong(req.getParameter("id"));
+
+            byte[] pdf = DataHelper.INSTANCE.getContent(id);
             resp.setContentLength(pdf.length);
             if ("/download".equals(req.getServletPath())) {
                 String filename = URLEncoder.encode(req.getParameter("filename"), "UTF-8").replace("+", " ");

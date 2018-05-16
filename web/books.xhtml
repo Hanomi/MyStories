@@ -60,7 +60,7 @@
                              columnClasses="col1, col2, col3">
                     <h:column>
                         <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{request.isUserInRole('admin') and !searchController.editMode}"/>
-                        <h:graphicImage value="/image?id=#{b.id}" width="120"/>
+                        <h:graphicImage value="/image?id=#{searchController.getRow(b)}" width="120"/>
                     </h:column>
                     <h:column>
                         <div>
@@ -72,8 +72,8 @@
                             </p>
                             <p>
                                 <strong>#{lcl.author_name}: </strong>
-                                <h:outputText value="#{b.author}" rendered="#{!b.edit}"/>
-                                <h:inputText value="#{b.author}" rendered="#{searchController.editMode and b.edit}"/>
+                                <h:outputText value="#{b.author.fio}" rendered="#{!b.edit}"/>
+                                <h:inputText value="#{b.author.fio}" rendered="#{searchController.editMode and b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.page_count}: </strong>
@@ -82,12 +82,12 @@
                             </p>
                             <p>
                                 <strong>#{lcl.publisher}: </strong>
-                                <h:outputText value="#{b.publisher}" rendered="#{!b.edit}"/>
-                                <h:inputText value="#{b.publisher}" rendered="#{searchController.editMode and b.edit}"/>
+                                <h:outputText value="#{b.publisher.name}" rendered="#{!b.edit}"/>
+                                <h:inputText value="#{b.publisher.name}" rendered="#{searchController.editMode and b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.publishDate}: </strong>
-                                <h:outputText value="#{b.publishDate}" rendered="#{!b.edit}"/>
+                                <h:outputText value="#{b.publishYear}" rendered="#{!b.edit}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.isbn}: </strong>

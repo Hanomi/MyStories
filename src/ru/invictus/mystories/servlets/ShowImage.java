@@ -26,10 +26,9 @@ public class ShowImage extends HttpServlet {
         resp.setContentType("image/jpeg");
 
         try (OutputStream out = resp.getOutputStream()) {
-            String id = req.getParameter("id");
-            byte[] image = searchController.getData(id, FileType.JPEG);
-            resp.setContentLength(image.length);
-            out.write(image);
+            int id = Integer.parseInt(req.getParameter("id"));
+            resp.setContentLength(searchController.getBookListPage().get(id).getImage().length);
+            out.write(searchController.getBookListPage().get(id).getImage());
         }
     }
 }

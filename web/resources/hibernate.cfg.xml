@@ -16,5 +16,6 @@
         <mapping class="ru.invictus.mystories.entity.Author"/>
         <mapping class="ru.invictus.mystories.entity.Book"/>
         <mapping class="ru.invictus.mystories.entity.Publisher"/>
+        <mapping class="ru.invictus.mystories.entity.BookContent"/>
     </session-factory>
 </hibernate-configuration>

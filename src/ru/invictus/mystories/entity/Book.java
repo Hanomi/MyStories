@@ -1,11 +1,7 @@
 package ru.invictus.mystories.entity;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.Arrays;
 import java.util.Objects;
 
 @Entity
@@ -15,7 +11,6 @@ public class Book {
     private String name;
     private Author author;
     private Genre genre;
-    private byte[] content;
     private int pageCount;
     private String isbn;
     private Date publishYear;
@@ -44,8 +39,7 @@ public class Book {
         this.name = name;
     }
 
-    @ManyToOne
-    @Fetch(FetchMode.JOIN)
+    @ManyToOne(fetch = FetchType.EAGER)
     public Author getAuthor() {
         return author;
     }
@@ -54,8 +48,7 @@ public class Book {
         this.author = author;
     }
 
-    @ManyToOne
-    @Fetch(FetchMode.JOIN)
+    @ManyToOne(fetch = FetchType.EAGER)
     public Genre getGenre() {
         return genre;
     }
@@ -64,24 +57,13 @@ public class Book {
         this.genre = genre;
     }
 
-    @ManyToOne
-    @Fetch(FetchMode.JOIN)
+    @ManyToOne(fetch = FetchType.EAGER)
     public Publisher getPublisher() {
         return publisher;
     }
 
     public void setPublisher(Publisher publisher) {
         this.publisher = publisher;
-    }
-
-    @Basic
-    @Column(name = "content")
-    public byte[] getContent() {
-        return content;
-    }
-
-    public void setContent(byte[] content) {
-        this.content = content;
     }
 
     @Basic
@@ -134,6 +116,7 @@ public class Book {
         this.description = description;
     }
 
+    @Transient
     public boolean isEdit() {
         return edit;
     }
@@ -153,20 +136,15 @@ public class Book {
                 Objects.equals(name, book.name) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(genre, book.genre) &&
-                Arrays.equals(content, book.content) &&
                 Objects.equals(isbn, book.isbn) &&
                 Objects.equals(publishYear, book.publishYear) &&
                 Objects.equals(publisher, book.publisher) &&
-                Arrays.equals(image, book.image) &&
                 Objects.equals(description, book.description);
     }
 
     @Override
     public int hashCode() {
 
-        int result = Objects.hash(id, name, author, genre, pageCount, isbn, publishYear, publisher, description, edit);
-        result = 31 * result + Arrays.hashCode(content);
-        result = 31 * result + Arrays.hashCode(image);
-        return result;
+        return Objects.hash(id, name, author, genre, pageCount, isbn, publishYear, publisher, description, edit);
     }
 }

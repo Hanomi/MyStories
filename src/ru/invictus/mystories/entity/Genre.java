@@ -10,7 +10,6 @@ import java.util.Set;
 public class Genre {
     private long id;
     private String name;
-    private Set<Book> books = new HashSet<>(0);
 
     @Id
     @Column(name = "id")
@@ -32,29 +31,18 @@ public class Genre {
         this.name = name;
     }
 
-    @OneToMany
-    @JoinColumn(name = "genre_id")
-    public Set<Book> getBooks() {
-        return books;
-    }
-
-    public void setBooks(Set<Book> books) {
-        this.books = books;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Genre)) return false;
         Genre genre = (Genre) o;
         return id == genre.id &&
-                Objects.equals(name, genre.name) &&
-                Objects.equals(books, genre.books);
+                Objects.equals(name, genre.name);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, books);
+        return Objects.hash(id, name);
     }
 }
