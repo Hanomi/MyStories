@@ -3,7 +3,6 @@ package ru.invictus.mystories.controller;
 import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Author;
-import ru.invictus.mystories.entity.Genre;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
@@ -20,22 +19,23 @@ import java.util.Map;
 @Eager
 @Named
 @ApplicationScoped
-public class GenreController implements Serializable, Converter {
+public class AuthorController implements Serializable, Converter {
     private List<SelectItem> selectItems = new ArrayList<>();
-    private Map<Long, Genre> map;
-    private List<Genre> list;
+    private Map<Long, Author> map;
+    private List<Author> list;
 
-    public GenreController() {
+
+    public AuthorController() {
         map = new HashMap<>();
-        list = DataHelper.INSTANCE.getAllGenres();
+        list = DataHelper.INSTANCE.getAllAuthors();
 
-        for (Genre genre : list) {
-            map.put(genre.getId(), genre);
-            selectItems.add(new SelectItem(genre, genre.getName()));
+        for (Author author : list) {
+            map.put(author.getId(), author);
+            selectItems.add(new SelectItem(author, author.getFio()));
         }
     }
 
-    public List<Genre> getGenreList() {
+    public List<Author> getAuthorList(){
         return list;
     }
 
@@ -50,6 +50,6 @@ public class GenreController implements Serializable, Converter {
 
     @Override
     public String getAsString(FacesContext context, UIComponent component, Object value) {
-        return ((Genre)value).getId() + "";
+        return ((Author)value).getId() + "";
     }
 }

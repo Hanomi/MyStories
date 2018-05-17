@@ -46,14 +46,12 @@ public class Author {
         if (this == o) return true;
         if (!(o instanceof Author)) return false;
         Author author = (Author) o;
-        return id == author.id &&
-                Objects.equals(fio, author.fio) &&
-                Objects.equals(birthday, author.birthday);
+        return id == author.id;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, fio, birthday);
+        return Objects.hash(id);
     }
 }

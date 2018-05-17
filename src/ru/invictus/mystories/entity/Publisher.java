@@ -34,13 +34,12 @@ public class Publisher {
         if (this == o) return true;
         if (!(o instanceof Publisher)) return false;
         Publisher publisher = (Publisher) o;
-        return id == publisher.id &&
-                Objects.equals(name, publisher.name);
+        return id == publisher.id;
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name);
+        return Objects.hash(id);
     }
 }

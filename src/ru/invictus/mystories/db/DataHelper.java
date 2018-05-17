@@ -2,6 +2,7 @@ package ru.invictus.mystories.db;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import ru.invictus.mystories.controller.PageController;
 import ru.invictus.mystories.entity.*;
@@ -186,6 +187,42 @@ public enum DataHelper implements Serializable {
         criteria.orderBy(builder.asc(root.get("name")));
         Query<String> query = getSession().createQuery(criteria);
         List<String> resultList = query.getResultList();
+        getSession().getTransaction().commit();
+        return resultList;
+    }
+
+    public void update(List<Book> bookList) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.getTransaction();
+            transaction.begin();
+            bookList.forEach(f -> {
+                if (f.isEdit()) session.update(f);
+            });
+            transaction.commit();
+            //session.flush();
+        }
+    }
+
+    public List<Author> getAllAuthors() {
+        getSession().beginTransaction();
+        final CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        CriteriaQuery<Author> criteria = builder.createQuery(Author.class);
+        Root<Author> root = criteria.from(Author.class);
+        criteria.orderBy(builder.asc(root.get("fio")));
+        Query<Author> query = getSession().createQuery(criteria);
+        List<Author> resultList = query.getResultList();
+        getSession().getTransaction().commit();
+        return resultList;
+    }
+
+    public List<Publisher> getAllPublisher() {
+        getSession().beginTransaction();
+        final CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        CriteriaQuery<Publisher> criteria = builder.createQuery(Publisher.class);
+        Root<Publisher> root = criteria.from(Publisher.class);
+        criteria.orderBy(builder.asc(root.get("name")));
+        Query<Publisher> query = getSession().createQuery(criteria);
+        List<Publisher> resultList = query.getResultList();
         getSession().getTransaction().commit();
         return resultList;
     }

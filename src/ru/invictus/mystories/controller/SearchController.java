@@ -100,11 +100,7 @@ public class SearchController implements Serializable {
 
     // обновление книг
     public void updateBooks() {
-        for (Book book : bookList) {
-            if (book.isEdit()) {
-                // todo update books
-            }
-        }
+        DataHelper.INSTANCE.update(bookList);
         cancelEditMode();
     }
 

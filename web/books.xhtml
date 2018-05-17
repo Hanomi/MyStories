@@ -73,7 +73,16 @@
                             <p>
                                 <strong>#{lcl.author_name}: </strong>
                                 <h:outputText value="#{b.author.fio}" rendered="#{!b.edit}"/>
-                                <h:inputText value="#{b.author.fio}" rendered="#{searchController.editMode and b.edit}"/>
+                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.author}" converter="#{authorController}">
+                                    <f:selectItems value="${authorController.selectItems}"/>
+                                </h:selectOneMenu>
+                            </p>
+                            <p>
+                                <strong>#{lcl.genre}: </strong>
+                                <h:outputText value="#{b.genre.name}" rendered="#{!b.edit}"/>
+                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.genre}" converter="#{genreController}">
+                                    <f:selectItems value="${genreController.selectItems}"/>
+                                </h:selectOneMenu>
                             </p>
                             <p>
                                 <strong>#{lcl.page_count}: </strong>
@@ -83,7 +92,9 @@
                             <p>
                                 <strong>#{lcl.publisher}: </strong>
                                 <h:outputText value="#{b.publisher.name}" rendered="#{!b.edit}"/>
-                                <h:inputText value="#{b.publisher.name}" rendered="#{searchController.editMode and b.edit}"/>
+                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.publisher}" converter="#{publisherController}">
+                                    <f:selectItems value="${publisherController.selectItems}"/>
+                                </h:selectOneMenu>
                             </p>
                             <p>
                                 <strong>#{lcl.publishDate}: </strong>

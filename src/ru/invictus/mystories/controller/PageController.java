@@ -17,7 +17,7 @@ public class PageController implements Serializable {
     public PageController() {
         booksOnPage = 5;
         selectedPage = 1;
-        foundBooks = 8;
+        foundBooks = 0;
         pager = new ArrayList<>();
     }
 
