@@ -3,6 +3,7 @@ package ru.invictus.mystories.controller;
 import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Author;
+import ru.invictus.mystories.utils.NameComparator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
@@ -11,10 +12,7 @@ import javax.faces.convert.Converter;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Eager
 @Named
@@ -28,6 +26,7 @@ public class AuthorController implements Serializable, Converter {
     public AuthorController() {
         map = new HashMap<>();
         list = DataHelper.INSTANCE.getAllAuthors();
+        list.sort(new NameComparator<>());
 
         for (Author author : list) {
             map.put(author.getId(), author);

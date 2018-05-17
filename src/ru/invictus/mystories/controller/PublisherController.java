@@ -4,6 +4,7 @@ import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Genre;
 import ru.invictus.mystories.entity.Publisher;
+import ru.invictus.mystories.utils.NameComparator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
@@ -28,6 +29,7 @@ public class PublisherController implements Serializable, Converter {
     public PublisherController() {
         map = new HashMap<>();
         list = DataHelper.INSTANCE.getAllPublisher();
+        list.sort(new NameComparator<>());
 
         for (Publisher publisher : list) {
             map.put(publisher.getId(), publisher);

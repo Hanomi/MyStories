@@ -4,6 +4,7 @@ import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Author;
 import ru.invictus.mystories.entity.Genre;
+import ru.invictus.mystories.utils.NameComparator;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.faces.component.UIComponent;
@@ -28,6 +29,7 @@ public class GenreController implements Serializable, Converter {
     public GenreController() {
         map = new HashMap<>();
         list = DataHelper.INSTANCE.getAllGenres();
+        list.sort(new NameComparator<>());
 
         for (Genre genre : list) {
             map.put(genre.getId(), genre);

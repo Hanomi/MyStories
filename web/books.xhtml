@@ -98,7 +98,12 @@
                             </p>
                             <p>
                                 <strong>#{lcl.publishDate}: </strong>
-                                <h:outputText value="#{b.publishYear}" rendered="#{!b.edit}"/>
+                                <h:outputText value="#{b.publishYear}" rendered="#{!b.edit}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:outputText>
+                                <h:inputText value="#{b.publishYear}" rendered="#{searchController.editMode and b.edit}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                </h:inputText>
                             </p>
                             <p>
                                 <strong>#{lcl.isbn}: </strong>
