@@ -1,6 +1,7 @@
 package ru.invictus.mystories.servlets;
 
 import ru.invictus.mystories.controller.SearchController;
+import ru.invictus.mystories.entity.Book;
 
 import javax.inject.Inject;
 import javax.servlet.ServletException;
@@ -26,9 +27,10 @@ public class ShowImage extends HttpServlet {
         resp.setContentType("image/jpeg");
 
         try (OutputStream out = resp.getOutputStream()) {
-            int id = Integer.parseInt(req.getParameter("id"));
-            resp.setContentLength(searchController.getBookList().get(id).getImage().length);
-            out.write(searchController.getBookList().get(id).getImage());
+            long id = Long.parseLong(req.getParameter("id"));
+            Book book = searchController.getBookList().stream().filter(f -> f.getId() == id).findFirst().get();
+            resp.setContentLength(book.getImage().length);
+            out.write(book.getImage());
         }
     }
 }

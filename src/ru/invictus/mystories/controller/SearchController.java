@@ -22,7 +22,6 @@ public class SearchController implements Serializable {
     private DataHelper dataHelper;
     private List<Book> bookList; // список книг на странице
     private boolean editMode; // режим редактирования книг
-    private int row = 0;
 
     private String selectedLetter;
     private String selectedGenre;
@@ -41,37 +40,39 @@ public class SearchController implements Serializable {
 
     // книги по жанру
     public void fillBooksByGenre() {
+        pageController.changePage(1);
         editMode = false;
-        row = 0;
         selectedLetter = "";
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         selectedGenre = params.get("genre_id");
         bookList = dataHelper.updateBooks(SearchType.GENRE, pageController, selectedGenre);
+        pageController.updatePager();
     }
 
     // книги по алфавитному указателю
     public void fillBooksByLetter() {
+        pageController.changePage(1);
         editMode = false;
-        row = 0;
         selectedGenre = "";
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         selectedLetter = params.get("letter");
         bookList = dataHelper.updateBooks(SearchType.LETTER, pageController, selectedLetter);
+        pageController.updatePager();
     }
 
     // книги по поиску
     public void fillBooksBySearch(){
+        pageController.changePage(1);
         editMode = false;
-        row = 0;
         selectedGenre = "";
         selectedLetter = "";
         bookList = dataHelper.updateBooks(searchType, pageController, searchString);
+        pageController.updatePager();
     }
 
     // смена страницы в списке найденых книг
     public void changePage() {
         editMode = false;
-        row = 0;
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         pageController.changePage(Integer.parseInt(params.get("page_number")));
         bookList = dataHelper.updateBooks(SearchType.UPDATE, pageController, null);
@@ -79,10 +80,9 @@ public class SearchController implements Serializable {
 
     // смена кол-ва книг на странице
     public void changeBooksOnPage(ValueChangeEvent event) {
-        editMode = false;
-        row = 0;
-        pageController.setBooksOnPage(Integer.parseInt(event.getNewValue().toString()));
         pageController.changePage(1);
+        editMode = false;
+        pageController.setBooksOnPage(Integer.parseInt(event.getNewValue().toString()));
         pageController.updatePager();
         bookList = dataHelper.updateBooks(SearchType.UPDATE, pageController, null);
     }
@@ -139,10 +139,4 @@ public class SearchController implements Serializable {
     public List<Book> getBookList() {
         return bookList;
     }
-
-    public int getRow() {
-        if (row >= pageController.getBooksOnPage()) row = 0;
-        return row++;
-    }
-
 }

@@ -11,7 +11,7 @@ import java.util.List;
 public class PageController implements Serializable {
     private int booksOnPage; // кол-во книг на странице
     private int selectedPage; // текущая страница
-    private int foundBooks; // кол-во книг
+    private long foundBooks; // кол-во книг
     private List<Integer> pager;
 
     public PageController() {
@@ -58,15 +58,15 @@ public class PageController implements Serializable {
         this.booksOnPage = booksOnPage;
     }
 
-    public int getSelectedPage() {
+    public long getSelectedPage() {
         return selectedPage;
     }
 
-    public int getFoundBooks() {
+    public long getFoundBooks() {
         return foundBooks;
     }
 
-    public void setFoundBooks(int foundBooks) {
+    public void setFoundBooks(long foundBooks) {
         this.foundBooks = foundBooks;
     }
 

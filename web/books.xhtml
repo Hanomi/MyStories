@@ -19,17 +19,17 @@
         </ui:define>
 
         <ui:define name="content">
-            <h:form>
+            <h:form id="books_count">
                 <h:selectOneMenu value="#{pageController.booksOnPage}" valueChangeListener="#{searchController.changeBooksOnPage}">
                     <f:selectItem itemValue="1"/>
                     <f:selectItem itemValue="2"/>
                     <f:selectItem itemValue="3"/>
                     <f:selectItem itemValue="5"/>
                     <f:selectItem itemValue="10"/>
-                    <f:ajax event="change" execute="@form" onevent="showProgress" render=":booksForm :booksForm:book_list :pager_down"/>
+                    <f:ajax event="change" execute="@form" onevent="showProgress" render="@form :booksForm :booksForm:book_list :pager_down"/>
 
                 </h:selectOneMenu>
-                <strong><h:outputText value="#{lcl.book_count} #{pageController.foundBooks}" id="books_count"/></strong>
+                <strong><h:outputText value="#{lcl.book_count} #{pageController.foundBooks}"/></strong>
             </h:form>
 
             <h:form id="booksForm">
@@ -60,7 +60,7 @@
                              columnClasses="col1, col2, col3">
                     <h:column>
                         <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{request.isUserInRole('admin') and !searchController.editMode}"/>
-                        <h:graphicImage value="/image?id=#{searchController.getRow()}" width="120"/>
+                        <h:graphicImage value="/image?id=#{b.id}" width="120"/>
                     </h:column>
                     <h:column>
                         <div>
