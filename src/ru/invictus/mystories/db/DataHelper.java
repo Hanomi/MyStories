@@ -4,10 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
 import ru.invictus.mystories.controller.PageController;
-import ru.invictus.mystories.entity.Book;
-import ru.invictus.mystories.entity.BookContent;
-import ru.invictus.mystories.entity.Genre;
-import ru.invictus.mystories.entity.HibernateUtil;
+import ru.invictus.mystories.entity.*;
 import ru.invictus.mystories.utils.SearchType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -40,11 +37,11 @@ public enum DataHelper implements Serializable {
             case GENRE:
                 return getBooksByGenre(lastQuery, pageController, updatePG);
             case LETTER:
-                return getAllBooks();
+                return getBooksByLetter(lastQuery, pageController, updatePG);
             case TITLE:
-                return getAllBooks();
+                return getBooksByTitle(lastQuery, pageController, updatePG);
             case AUTHOR:
-                return getAllBooks();
+                return getBooksByAuthor(lastQuery, pageController, updatePG);
             default:
                 return Collections.emptyList();
         }
@@ -80,6 +77,80 @@ public enum DataHelper implements Serializable {
         return resultList;
     }
 
+    private List<Book> getBooksByTitle(String title, PageController pageController, boolean updatePG) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        if (updatePG) {
+            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+            Root<Book> root = criteria.from(Book.class);
+            criteria.select(builder.count(root));
+            criteria.where(builder.like(root.get("name"), "%" + title + "%"));
+            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
+        }
+
+        CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
+        Root<Book> root = criteria.from(Book.class);
+        criteria.select(root);
+        criteria.where(builder.like(root.get("name"), "%" + title + "%"));
+        criteria.orderBy(builder.asc(root.get("name")));
+        Query<Book> query = getSession().createQuery(criteria);
+        query.setFirstResult(pageController.getFirstResult());
+        query.setMaxResults(pageController.getMaxResults());
+        List<Book> resultList = query.getResultList();
+        getSession().getTransaction().commit();
+        return resultList;
+    }
+
+    private List<Book> getBooksByAuthor(String author, PageController pageController, boolean updatePG) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        if (updatePG) {
+            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+            Root<Book> root = criteria.from(Book.class);
+            Join<Book, Author> join = root.join("author");
+            criteria.select(builder.count(root));
+            criteria.where(builder.like(join.get("fio"), "%" + author + "%"));
+            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
+        }
+
+        CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
+        Root<Book> root = criteria.from(Book.class);
+        Join<Book, Author> join = root.join("author");
+        criteria.select(root);
+        criteria.where(builder.like(join.get("fio"), "%" + author + "%"));
+        criteria.orderBy(builder.asc(root.get("name")));
+        Query<Book> query = getSession().createQuery(criteria);
+        query.setFirstResult(pageController.getFirstResult());
+        query.setMaxResults(pageController.getMaxResults());
+        List<Book> resultList = query.getResultList();
+        getSession().getTransaction().commit();
+        return resultList;
+    }
+
+    private List<Book> getBooksByLetter(String letter, PageController pageController, boolean updatePG) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        if (updatePG) {
+            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+            Root<Book> root = criteria.from(Book.class);
+            criteria.select(builder.count(root));
+            criteria.where(builder.like(root.get("name"), letter + "%"));
+            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
+        }
+
+        CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
+        Root<Book> root = criteria.from(Book.class);
+        criteria.select(root);
+        criteria.where(builder.like(root.get("name"), letter + "%"));
+        criteria.orderBy(builder.asc(root.get("name")));
+        Query<Book> query = getSession().createQuery(criteria);
+        query.setFirstResult(pageController.getFirstResult());
+        query.setMaxResults(pageController.getMaxResults());
+        List<Book> resultList = query.getResultList();
+        getSession().getTransaction().commit();
+        return resultList;
+    }
+
     // нужно упростить......
     public List<Genre> getAllGenres() {
         getSession().beginTransaction();
@@ -89,20 +160,6 @@ public enum DataHelper implements Serializable {
         criteria.orderBy(builder.asc(root.get("name")));
         Query<Genre> query = getSession().createQuery(criteria);
         List<Genre> resultList = query.getResultList();
-        getSession().getTransaction().commit();
-        return resultList;
-    }
-
-    public List<Book> getAllBooks() {
-        getSession().beginTransaction();
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
-        Root<Book> root = criteria.from(Book.class);
-        criteria.orderBy(builder.asc(root.get("name")));
-        Query<Book> query = getSession().createQuery(criteria);
-        query.setFirstResult(0);
-        query.setMaxResults(5);
-        List<Book> resultList = query.getResultList();
         getSession().getTransaction().commit();
         return resultList;
     }
@@ -118,15 +175,6 @@ public enum DataHelper implements Serializable {
         byte[] content = query.uniqueResult();
         getSession().getTransaction().commit();
         return content;
-    }
-
-    public <T> Long getCount(Class<T> tClass, String field, String search){
-        CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-        Root<T> root = criteria.from(tClass);
-        criteria.where(builder.equal(root.get(field), search));
-        criteria.select(builder.count(criteria.from(tClass)));
-        return getSession().createQuery(criteria).getSingleResult();
     }
 
     public List<String> getAllLetters() {
