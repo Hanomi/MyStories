@@ -27,8 +27,8 @@ public class ShowImage extends HttpServlet {
 
         try (OutputStream out = resp.getOutputStream()) {
             int id = Integer.parseInt(req.getParameter("id"));
-            resp.setContentLength(searchController.getBookListPage().get(id).getImage().length);
-            out.write(searchController.getBookListPage().get(id).getImage());
+            resp.setContentLength(searchController.getBookList().get(id).getImage().length);
+            out.write(searchController.getBookList().get(id).getImage());
         }
     }
 }

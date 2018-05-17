@@ -2,153 +2,126 @@ package ru.invictus.mystories.controller;
 
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Book;
-import ru.invictus.mystories.servlets.FileType;
 import ru.invictus.mystories.utils.SearchType;
 
 import javax.enterprise.context.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 @Named("searchController")
 @SessionScoped
 public class SearchController implements Serializable {
-    private SearchType searchType;
-    private List<Book> bookListPage;
-    private String searchString;
-    private static final Logger logger;
-    private static Set<Character> letters;
-    private int booksOnPage = 3;
-    private Integer selectedPage;
+    private static final Logger logger = Logger.getLogger(SearchController.class.getName());
+    @Inject
+    private PageController pageController;
+    private DataHelper dataHelper;
+    private List<Book> bookList; // список книг на странице
+    private boolean editMode; // режим редактирования книг
+    private int row = 0;
+
     private String selectedLetter;
     private String selectedGenre;
-    private boolean editMode;
-    private String lastSql;
-    private int bookListSize = 0;
-
-    static {
-        logger = Logger.getLogger(SearchController.class.getName());
-        letters = new TreeSet<>();
-    }
-
-    public int getRow(Book book) {
-        return bookListPage.indexOf(book);
-    }
-
-    public int getBooksOnPage() {
-        return booksOnPage;
-    }
-
-    public void setBooksOnPage(int booksOnPage) {
-        this.booksOnPage = booksOnPage;
-    }
-
-    public int getBookListSize() {
-        return bookListSize;
-    }
+    private String searchString;
+    private SearchType searchType;
 
     public SearchController() {
-        bookListPage = new ArrayList<>();
+        bookList = new ArrayList<>();
         editMode = false;
+        dataHelper = DataHelper.INSTANCE;
     }
 
-    public boolean isEditMode() {
-        return editMode;
+    public void setPageController(PageController pageController) {
+        this.pageController = pageController;
     }
 
-
-    public List<Book> getBookListPage() {
-        return bookListPage;
+    // книги по жанру
+    public void fillBooksByGenre() {
+        editMode = false;
+        row = 0;
+        selectedLetter = "";
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        selectedGenre = params.get("genre_id");
+        bookList = dataHelper.updateBooks(SearchType.GENRE, pageController, selectedGenre);
     }
 
-    public Set<Character> getLetters() {
-        return letters;
+    // книги по алфавитному указателю
+    public void fillBooksByLetter() {
+        editMode = false;
+        row = 0;
+        selectedGenre = "";
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        selectedLetter = params.get("letter");
+        bookList = dataHelper.updateBooks(SearchType.LETTER, pageController, selectedLetter);
     }
 
-    private void getBooks(boolean newSearch) {
-        bookListPage = DataHelper.INSTANCE.getAllBooks();
+    // книги по поиску
+    public void fillBooksBySearch(){
+        editMode = false;
+        row = 0;
+        selectedGenre = "";
+        selectedLetter = "";
+        bookList = dataHelper.updateBooks(searchType, pageController, searchString);
     }
 
-    public boolean showPager() {
-        return bookListSize > booksOnPage;
+    // смена страницы в списке найденых книг
+    public void changePage() {
+        editMode = false;
+        row = 0;
+        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
+        pageController.changePage(Integer.parseInt(params.get("page_number")));
+        bookList = dataHelper.updateBooks(SearchType.UPDATE, pageController, null);
     }
 
-
-    public void setSearchString(String searchString) {
-        this.searchString = searchString;
+    // смена кол-ва книг на странице
+    public void changeBooksOnPage(ValueChangeEvent event) {
+        editMode = false;
+        row = 0;
+        pageController.setBooksOnPage(Integer.parseInt(event.getNewValue().toString()));
+        pageController.changePage(1);
+        pageController.updatePager();
+        bookList = dataHelper.updateBooks(SearchType.UPDATE, pageController, null);
     }
 
-    public String  getSearchString() {
+    //  режим редактирования
+    public void enableEditMode() {
+        editMode = true;
+    }
+
+    // отмена редактирования
+    public void cancelEditMode() {
+        editMode = false;
+        bookList.forEach(f -> f.setEdit(false));
+    }
+
+    // обновление книг
+    public void updateBooks() {
+        for (Book book : bookList) {
+            if (book.isEdit()) {
+                // todo update books
+            }
+        }
+        cancelEditMode();
+    }
+
+    public String getSearchString() {
         return searchString;
     }
 
-    public void setSearchType(SearchType searchType) {
-        this.searchType = searchType;
+    public void setSearchString(String searchString) {
+        this.searchString = searchString;
     }
 
     public SearchType getSearchType() {
         return searchType;
     }
 
-    public void fillBooksByGenre() {
-        getBooks(true);
-    }
-
-    public void fillBooksByLetter() {
-        getBooks(true);
-    }
-
-
-
-    public void fillBooksBySearch() {
-        getBooks(true);
-    }
-
-    public List<Integer> pageNumber() {
-        int size = (int) Math.ceil((double) bookListSize / booksOnPage);
-        List<Integer> list = new ArrayList<>();
-        list.add(1);
-        for (int i = 1; i < size; i++) {
-            list.add(i + 1);
-        }
-        return list;
-    }
-
-    public void selectPage() {
-        Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
-        selectedPage = Integer.parseInt(params.get("page_number"));
-        getBooks(false);
-    }
-
-    public void changeBooksOnPage(ValueChangeEvent event) {
-        selectedPage = 1;
-        booksOnPage = Integer.parseInt(event.getNewValue().toString());
-        if (lastSql != null) getBooks(true);
-    }
-
-    public String updateBooks() {
-        return "books";
-    }
-
-    public void enableEditMode() {
-        editMode = true;
-    }
-
-    public void cancelEditMode() {
-        editMode = false;
-        bookListPage.forEach(book -> book.setEdit(false));
-    }
-
-    public Integer getSelectedPage() {
-        return selectedPage;
+    public void setSearchType(SearchType searchType) {
+        this.searchType = searchType;
     }
 
     public String getSelectedLetter() {
@@ -158,4 +131,18 @@ public class SearchController implements Serializable {
     public String getSelectedGenre() {
         return selectedGenre;
     }
+
+    public boolean isEditMode() {
+        return editMode;
+    }
+
+    public List<Book> getBookList() {
+        return bookList;
+    }
+
+    public int getRow() {
+        if (row >= pageController.getBooksOnPage()) row = 0;
+        return row++;
+    }
+
 }

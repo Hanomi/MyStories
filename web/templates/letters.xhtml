@@ -13,7 +13,7 @@
 <h:body>
     <ui:composition>
         <h:form id="letters_form" styleClass="letters">
-            <ui:repeat value="#{searchController.letters}" var="letter">
+            <ui:repeat value="#{lettersController.letters}" var="letter">
                 <h:commandLink value="#{letter}"
                                styleClass="#{letter == searchController.selectedLetter ? 'letter_selected' : 'letter'}">
                     <f:param name="letter" value="#{letter}"/>

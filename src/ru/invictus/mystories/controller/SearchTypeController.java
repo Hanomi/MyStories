@@ -14,7 +14,6 @@ import java.util.ResourceBundle;
 public class SearchTypeController {
     private Map<String, SearchType> searchMap;
 
-
     public SearchTypeController() {
         ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.localisation", FacesContext.getCurrentInstance().getViewRoot().getLocale());
         searchMap = new HashMap<>();
