@@ -1,6 +1,5 @@
 package ru.invictus.mystories.controller;
 
-import org.primefaces.model.LazyDataModel;
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Book;
 import ru.invictus.mystories.utils.SearchType;
@@ -23,8 +22,6 @@ public class SearchController implements Serializable {
     private DataHelper dataHelper;
     private List<Book> bookList; // список книг на странице
     private boolean editMode; // режим редактирования книг
-    @Inject
-    private LazyDataModel<Book> bookListModel;
 
     private String selectedLetter;
     private String selectedGenre;
@@ -137,13 +134,5 @@ public class SearchController implements Serializable {
 
     public List<Book> getBookList() {
         return bookList;
-    }
-
-    public LazyDataModel<Book> getBookListModel() {
-        return bookListModel;
-    }
-
-    public void setBookListModel(LazyDataModel<Book> bookListModel) {
-        this.bookListModel = bookListModel;
     }
 }
