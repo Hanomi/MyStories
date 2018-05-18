@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Title</title>
@@ -20,13 +21,15 @@
 
         <ui:define name="content">
             <h:form id="books_count">
-                <h:selectOneMenu value="#{pageController.booksOnPage}" valueChangeListener="#{searchController.changeBooksOnPage}">
+                <h:selectOneMenu value="#{pageController.booksOnPage}"
+                                 valueChangeListener="#{searchController.changeBooksOnPage}">
                     <f:selectItem itemValue="1"/>
                     <f:selectItem itemValue="2"/>
                     <f:selectItem itemValue="3"/>
                     <f:selectItem itemValue="5"/>
                     <f:selectItem itemValue="10"/>
-                    <f:ajax event="change" execute="@form" onevent="showProgress" render="@form :booksForm :booksForm:book_list :pager_down"/>
+                    <f:ajax event="change" execute="@form" onevent="showProgress"
+                            render="@form :booksForm :booksForm:book_list :pager_down"/>
 
                 </h:selectOneMenu>
                 <strong><h:outputText value="#{lcl.book_count} #{pageController.foundBooks}"/></strong>
@@ -56,13 +59,15 @@
                 </h:panelGroup>
 
 
-                <h:dataTable id="book_list" value="#{searchController.bookList}" var="b"
-                             columnClasses="col1, col2, col3">
-                    <h:column>
-                        <h:selectBooleanCheckbox value="#{b.edit}" rendered="#{request.isUserInRole('admin') and !searchController.editMode}"/>
+                <p:dataTable lazy="true" id="book_list" value="#{searchController.bookListModel}" var="b" styleClass=""
+                             rowIndexVar="rowIndex" paginator="true" rows="5" rowsPerPageTemplate="3,5,10"
+                             paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" paginatorAlwaysVisible="false" emptyMessage="">
+                    <p:column>
+                        <h:selectBooleanCheckbox value="#{b.edit}"
+                                                 rendered="#{request.isUserInRole('admin') and !searchController.editMode}"/>
                         <h:graphicImage value="/image?id=#{b.id}" width="120"/>
-                    </h:column>
-                    <h:column>
+                    </p:column>
+                    <p:column>
                         <div>
                             <p>
                                 <strong>
@@ -73,14 +78,16 @@
                             <p>
                                 <strong>#{lcl.author_name}: </strong>
                                 <h:outputText value="#{b.author.fio}" rendered="#{!b.edit}"/>
-                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.author}" converter="#{authorController}">
+                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.author}"
+                                                 converter="#{authorController}">
                                     <f:selectItems value="${authorController.selectItems}"/>
                                 </h:selectOneMenu>
                             </p>
                             <p>
                                 <strong>#{lcl.genre}: </strong>
                                 <h:outputText value="#{b.genre.name}" rendered="#{!b.edit}"/>
-                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.genre}" converter="#{genreController}">
+                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.genre}"
+                                                 converter="#{genreController}">
                                     <f:selectItems value="${genreController.selectItems}"/>
                                 </h:selectOneMenu>
                             </p>
@@ -92,17 +99,19 @@
                             <p>
                                 <strong>#{lcl.publisher}: </strong>
                                 <h:outputText value="#{b.publisher.name}" rendered="#{!b.edit}"/>
-                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.publisher}" converter="#{publisherController}">
+                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}"
+                                                 value="#{b.publisher}" converter="#{publisherController}">
                                     <f:selectItems value="${publisherController.selectItems}"/>
                                 </h:selectOneMenu>
                             </p>
                             <p>
                                 <strong>#{lcl.publishDate}: </strong>
                                 <h:outputText value="#{b.publishYear}" rendered="#{!b.edit}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:outputText>
-                                <h:inputText value="#{b.publishYear}" rendered="#{searchController.editMode and b.edit}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy" />
+                                <h:inputText value="#{b.publishYear}"
+                                             rendered="#{searchController.editMode and b.edit}">
+                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:inputText>
                             </p>
                             <p>
@@ -124,15 +133,15 @@
                                 </h:panelGroup>
                             </p>
                         </div>
-                    </h:column>
-                    <h:column>
+                    </p:column>
+                    <p:column>
                         <div class="description">
                             <strong>#{lcl.description}: </strong>
                             <h:outputText value="#{b.description}" rendered="#{!b.edit}"/>
                             <h:inputText value="#{b.description}" rendered="#{searchController.editMode and b.edit}"/>
                         </div>
-                    </h:column>
-                </h:dataTable>
+                    </p:column>
+                </p:dataTable>
 
 
             </h:form>
