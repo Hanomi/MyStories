@@ -1,8 +1,6 @@
 package ru.invictus.mystories.controller;
 
-import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
-import ru.invictus.mystories.entity.Genre;
 import ru.invictus.mystories.entity.Publisher;
 import ru.invictus.mystories.utils.NameComparator;
 
@@ -18,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Eager
 @Named
 @ApplicationScoped
 public class PublisherController implements Serializable, Converter {
@@ -35,10 +32,6 @@ public class PublisherController implements Serializable, Converter {
             map.put(publisher.getId(), publisher);
             selectItems.add(new SelectItem(publisher, publisher.getName()));
         }
-    }
-
-    public List<Publisher> getGenreList() {
-        return list;
     }
 
     public List<SelectItem> getSelectItems() {

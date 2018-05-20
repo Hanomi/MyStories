@@ -1,6 +1,5 @@
 package ru.invictus.mystories.controller;
 
-import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -9,7 +8,6 @@ import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;
 
-@Eager
 @Named
 @ApplicationScoped
 public class LettersController implements Serializable {

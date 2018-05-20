@@ -1,6 +1,5 @@
 package ru.invictus.mystories.controller;
 
-import ru.invictus.mystories.anotations.Eager;
 import ru.invictus.mystories.db.DataHelper;
 import ru.invictus.mystories.entity.Author;
 import ru.invictus.mystories.utils.NameComparator;
@@ -14,7 +13,6 @@ import javax.inject.Named;
 import java.io.Serializable;
 import java.util.*;
 
-@Eager
 @Named
 @ApplicationScoped
 public class AuthorController implements Serializable, Converter {
@@ -32,10 +30,6 @@ public class AuthorController implements Serializable, Converter {
             map.put(author.getId(), author);
             selectItems.add(new SelectItem(author, author.getFio()));
         }
-    }
-
-    public List<Author> getAuthorList(){
-        return list;
     }
 
     public List<SelectItem> getSelectItems() {

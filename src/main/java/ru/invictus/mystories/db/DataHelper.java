@@ -4,9 +4,9 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import ru.invictus.mystories.controller.PageController;
 import ru.invictus.mystories.entity.*;
 import ru.invictus.mystories.utils.SearchType;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Join;
@@ -18,33 +18,48 @@ import java.util.List;
 public enum DataHelper implements Serializable {
     INSTANCE;
 
-    private SessionFactory sessionFactory;
     private SearchType lastType;
     private String lastQuery;
+    private Long lastResult;
+    private SessionFactory sessionFactory;
 
     DataHelper() {
         sessionFactory = HibernateUtil.getSessionFactory();
+        lastResult = 0L;
     }
 
-    public List<Book> updateBooks(SearchType type, PageController pageController, String query) {
-        boolean updatePG = false;
-
-        if (type != SearchType.UPDATE) {
-            lastType = type;
-            lastQuery = query;
-            updatePG = true;
-        }
-        switch (lastType) {
+    public List<Book> updateBooks(SearchType type, String query, int first, int pageSize) {
+        switch (type) {
             case GENRE:
-                return getBooksByGenre(lastQuery, pageController, updatePG);
+                return getBooksByGenre(query, first, pageSize);
             case LETTER:
-                return getBooksByLetter(lastQuery, pageController, updatePG);
+                return getBooksByLetter(query, first, pageSize);
             case TITLE:
-                return getBooksByTitle(lastQuery, pageController, updatePG);
+                return getBooksByTitle(query, first, pageSize);
             case AUTHOR:
-                return getBooksByAuthor(lastQuery, pageController, updatePG);
+                return getBooksByAuthor(query, first, pageSize);
             default:
                 return Collections.emptyList();
+        }
+    }
+
+    public Long getRowCount(SearchType type, String query) {
+        if (type == lastType && query.equals(lastQuery)) return lastResult;
+
+        lastType = type;
+        lastQuery = query;
+
+        switch (type) {
+            case GENRE:
+                return getRowCountByGenre(query);
+            case LETTER:
+                return getRowCountByLetter(query);
+            case TITLE:
+                return getRowCountByTitle(query);
+            case AUTHOR:
+                return getRowCountByAuthor(query);
+            default:
+                return 0L;
         }
     }
 
@@ -52,18 +67,9 @@ public enum DataHelper implements Serializable {
         return sessionFactory.getCurrentSession();
     }
 
-    private List<Book> getBooksByGenre(String genre, PageController pageController, boolean updatePG) {
+    private List<Book> getBooksByGenre(String genre, int first, int pageSize) {
         getSession().beginTransaction();
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        if (updatePG) {
-            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-            Root<Book> root = criteria.from(Book.class);
-            Join<Book, Genre> join = root.join("genre");
-            criteria.select(builder.count(root));
-            criteria.where(builder.equal(join.get("id"), genre));
-            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
-        }
-
         CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
         Root<Book> root = criteria.from(Book.class);
         Join<Book, Genre> join = root.join("genre");
@@ -71,49 +77,57 @@ public enum DataHelper implements Serializable {
         criteria.where(builder.equal(join.get("id"), genre));
         criteria.orderBy(builder.asc(root.get("name")));
         Query<Book> query = getSession().createQuery(criteria);
-        query.setFirstResult(pageController.getFirstResult());
-        query.setMaxResults(pageController.getMaxResults());
+        query.setFirstResult(first);
+        query.setMaxResults(pageSize);
         List<Book> resultList = query.getResultList();
         getSession().getTransaction().commit();
         return resultList;
     }
 
-    private List<Book> getBooksByTitle(String title, PageController pageController, boolean updatePG) {
+    private Long getRowCountByGenre(String genre) {
         getSession().beginTransaction();
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        if (updatePG) {
-            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-            Root<Book> root = criteria.from(Book.class);
-            criteria.select(builder.count(root));
-            criteria.where(builder.like(root.get("name"), "%" + title + "%"));
-            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
-        }
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Book> root = criteria.from(Book.class);
+        Join<Book, Genre> join = root.join("genre");
+        criteria.select(builder.count(root));
+        criteria.where(builder.equal(join.get("id"), genre));
+        lastResult = getSession().createQuery(criteria).getSingleResult();
+        getSession().getTransaction().commit();
+        return lastResult;
+    }
 
+    private List<Book> getBooksByTitle(String title, int first, int pageSize) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
         Root<Book> root = criteria.from(Book.class);
         criteria.select(root);
         criteria.where(builder.like(root.get("name"), "%" + title + "%"));
         criteria.orderBy(builder.asc(root.get("name")));
         Query<Book> query = getSession().createQuery(criteria);
-        query.setFirstResult(pageController.getFirstResult());
-        query.setMaxResults(pageController.getMaxResults());
+        query.setFirstResult(first);
+        query.setMaxResults(pageSize);
         List<Book> resultList = query.getResultList();
         getSession().getTransaction().commit();
         return resultList;
     }
 
-    private List<Book> getBooksByAuthor(String author, PageController pageController, boolean updatePG) {
+    private Long getRowCountByTitle(String title) {
         getSession().beginTransaction();
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        if (updatePG) {
-            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-            Root<Book> root = criteria.from(Book.class);
-            Join<Book, Author> join = root.join("author");
-            criteria.select(builder.count(root));
-            criteria.where(builder.like(join.get("fio"), "%" + author + "%"));
-            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
-        }
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Book> root = criteria.from(Book.class);
+        criteria.select(builder.count(root));
+        criteria.where(builder.like(root.get("name"), "%" + title + "%"));
+        lastResult = getSession().createQuery(criteria).getSingleResult();
+        getSession().getTransaction().commit();
+        return lastResult;
+    }
 
+    private List<Book> getBooksByAuthor(String author, int first, int pageSize) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
         Root<Book> root = criteria.from(Book.class);
         Join<Book, Author> join = root.join("author");
@@ -121,35 +135,52 @@ public enum DataHelper implements Serializable {
         criteria.where(builder.like(join.get("fio"), "%" + author + "%"));
         criteria.orderBy(builder.asc(root.get("name")));
         Query<Book> query = getSession().createQuery(criteria);
-        query.setFirstResult(pageController.getFirstResult());
-        query.setMaxResults(pageController.getMaxResults());
+        query.setFirstResult(first);
+        query.setMaxResults(pageSize);
         List<Book> resultList = query.getResultList();
         getSession().getTransaction().commit();
         return resultList;
     }
 
-    private List<Book> getBooksByLetter(String letter, PageController pageController, boolean updatePG) {
+    private Long getRowCountByAuthor(String author) {
         getSession().beginTransaction();
         CriteriaBuilder builder = getSession().getCriteriaBuilder();
-        if (updatePG) {
-            CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
-            Root<Book> root = criteria.from(Book.class);
-            criteria.select(builder.count(root));
-            criteria.where(builder.like(root.get("name"), letter + "%"));
-            pageController.setFoundBooks(getSession().createQuery(criteria).getSingleResult());
-        }
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Book> root = criteria.from(Book.class);
+        Join<Book, Author> join = root.join("author");
+        criteria.select(builder.count(root));
+        criteria.where(builder.like(join.get("fio"), "%" + author + "%"));
+        lastResult = getSession().createQuery(criteria).getSingleResult();
+        getSession().getTransaction().commit();
+        return lastResult;
+    }
 
+    private List<Book> getBooksByLetter(String letter, int first, int pageSize) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
         CriteriaQuery<Book> criteria = builder.createQuery(Book.class);
         Root<Book> root = criteria.from(Book.class);
         criteria.select(root);
         criteria.where(builder.like(root.get("name"), letter + "%"));
         criteria.orderBy(builder.asc(root.get("name")));
         Query<Book> query = getSession().createQuery(criteria);
-        query.setFirstResult(pageController.getFirstResult());
-        query.setMaxResults(pageController.getMaxResults());
+        query.setFirstResult(first);
+        query.setMaxResults(pageSize);
         List<Book> resultList = query.getResultList();
         getSession().getTransaction().commit();
         return resultList;
+    }
+
+    private Long getRowCountByLetter(String letter) {
+        getSession().beginTransaction();
+        CriteriaBuilder builder = getSession().getCriteriaBuilder();
+        CriteriaQuery<Long> criteria = builder.createQuery(Long.class);
+        Root<Book> root = criteria.from(Book.class);
+        criteria.select(builder.count(root));
+        criteria.where(builder.like(root.get("name"), letter + "%"));
+        lastResult = getSession().createQuery(criteria).getSingleResult();
+        getSession().getTransaction().commit();
+        return lastResult;
     }
 
     // нужно упростить......
