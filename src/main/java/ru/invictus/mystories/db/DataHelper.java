@@ -18,14 +18,10 @@ import java.util.List;
 public enum DataHelper implements Serializable {
     INSTANCE;
 
-    private SearchType lastType;
-    private String lastQuery;
-    private Long lastResult;
     private SessionFactory sessionFactory;
 
     DataHelper() {
         sessionFactory = HibernateUtil.getSessionFactory();
-        lastResult = 0L;
     }
 
     public List<Book> updateBooks(SearchType type, String query, int first, int pageSize) {
@@ -44,11 +40,6 @@ public enum DataHelper implements Serializable {
     }
 
     public Long getRowCount(SearchType type, String query) {
-        if (type == lastType && query.equals(lastQuery)) return lastResult;
-
-        lastType = type;
-        lastQuery = query;
-
         switch (type) {
             case GENRE:
                 return getRowCountByGenre(query);
@@ -92,7 +83,7 @@ public enum DataHelper implements Serializable {
         Join<Book, Genre> join = root.join("genre");
         criteria.select(builder.count(root));
         criteria.where(builder.equal(join.get("id"), genre));
-        lastResult = getSession().createQuery(criteria).getSingleResult();
+        Long lastResult = getSession().createQuery(criteria).getSingleResult();
         getSession().getTransaction().commit();
         return lastResult;
     }
@@ -120,7 +111,7 @@ public enum DataHelper implements Serializable {
         Root<Book> root = criteria.from(Book.class);
         criteria.select(builder.count(root));
         criteria.where(builder.like(root.get("name"), "%" + title + "%"));
-        lastResult = getSession().createQuery(criteria).getSingleResult();
+        Long lastResult = getSession().createQuery(criteria).getSingleResult();
         getSession().getTransaction().commit();
         return lastResult;
     }
@@ -150,7 +141,7 @@ public enum DataHelper implements Serializable {
         Join<Book, Author> join = root.join("author");
         criteria.select(builder.count(root));
         criteria.where(builder.like(join.get("fio"), "%" + author + "%"));
-        lastResult = getSession().createQuery(criteria).getSingleResult();
+        Long lastResult = getSession().createQuery(criteria).getSingleResult();
         getSession().getTransaction().commit();
         return lastResult;
     }
@@ -178,7 +169,7 @@ public enum DataHelper implements Serializable {
         Root<Book> root = criteria.from(Book.class);
         criteria.select(builder.count(root));
         criteria.where(builder.like(root.get("name"), letter + "%"));
-        lastResult = getSession().createQuery(criteria).getSingleResult();
+        Long lastResult = getSession().createQuery(criteria).getSingleResult();
         getSession().getTransaction().commit();
         return lastResult;
     }

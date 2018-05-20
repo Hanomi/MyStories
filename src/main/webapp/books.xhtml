@@ -20,6 +20,8 @@
 
         <ui:define name="content">
             <h:form id="booksForm">
+                <strong><h:outputText id="books_count" value="#{lcl.book_count} #{searchController.bookListDataModel.getRowCount()}"/></strong>
+
                 <h:panelGroup id="adminTools" rendered="#{request.isUserInRole('admin')}">
                     <h:commandLink rendered="#{!searchController.editMode}">
                         <h:outputText value="#{lcl.add}"/>
@@ -43,7 +45,7 @@
 
 
                 <p:dataTable lazy="true" id="book_list" value="#{searchController.bookListDataModel}" var="b" styleClass=""
-                             paginator="true" rows="5" rowsPerPageTemplate="3,5,10"
+                             paginator="true" rows="3" rowsPerPageTemplate="3,5,10"
                              paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" paginatorAlwaysVisible="false" emptyMessage="">
                     <p:column>
                         <h:selectBooleanCheckbox value="#{b.edit}"

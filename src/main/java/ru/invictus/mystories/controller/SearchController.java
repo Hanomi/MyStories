@@ -38,13 +38,8 @@ public class SearchController implements Serializable {
 
             @Override
             public List<Book> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map filters) {
-                this.setRowCount(dataHelper.getRowCount(lastType, lastQuery));
                 bookList = dataHelper.updateBooks(lastType, lastQuery, first, pageSize);
                 return bookList;
-            }
-
-            private void setRowCount(long rowCount) {
-                this.setRowCount((int) rowCount);
             }
         };
     }
@@ -57,6 +52,8 @@ public class SearchController implements Serializable {
         selectedGenre = params.get("genre_id");
         lastType = SearchType.GENRE;
         lastQuery = selectedGenre;
+        long rows = dataHelper.getRowCount(lastType, lastQuery);
+        bookListDataModel.setRowCount((int) rows);
     }
 
     // книги по алфавитному указателю
@@ -67,6 +64,8 @@ public class SearchController implements Serializable {
         selectedLetter = params.get("letter");
         lastType = SearchType.LETTER;
         lastQuery = selectedLetter;
+        long rows = dataHelper.getRowCount(lastType, lastQuery);
+        bookListDataModel.setRowCount((int) rows);
     }
 
     // книги по поиску
@@ -76,6 +75,8 @@ public class SearchController implements Serializable {
         selectedLetter = "";
         lastType = searchType;
         lastQuery = searchString;
+        long rows = dataHelper.getRowCount(lastType, lastQuery);
+        bookListDataModel.setRowCount((int) rows);
     }
 
     //  режим редактирования

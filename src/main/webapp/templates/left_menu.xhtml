@@ -19,7 +19,7 @@
                                styleClass="#{g.id == searchController.selectedGenre ? 'genres_selected' : 'genres'}">
                     <f:param name="genre_id" value="#{g.id}"/>
                     <f:ajax onevent="showProgress" event="click"
-                            render="@form :booksForm:book_list :letters_form :pager_down :books_count"
+                            render="@form :booksForm:book_list :letters_form :pager_down :booksForm:books_count"
                             listener="#{searchController.fillBooksByGenre()}"/>
                 </h:commandLink>
             </ui:repeat>
