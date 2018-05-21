@@ -4,7 +4,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Title</title>
@@ -15,13 +16,12 @@
         <h3>#{lcl.genres}:</h3>
         <h:form id="genres_list" styleClass="genres">
             <ui:repeat value="#{genreController.genreList}" var="g">
-                <h:commandLink value="#{g.name}"
-                               styleClass="#{g.id == searchController.selectedGenre ? 'genres_selected' : 'genres'}">
+                <p:commandLink value="#{g.name}"
+                               styleClass="#{g.id == searchController.selectedGenre ? 'genres_selected' : 'genres'}"
+                               actionListener="#{searchController.fillBooksByGenre()}"
+                               update="@form :booksForm:book_list :letters_form :booksForm:books_count">
                     <f:param name="genre_id" value="#{g.id}"/>
-                    <f:ajax onevent="showProgress" event="click"
-                            render="@form :booksForm:book_list :letters_form :pager_down :booksForm:books_count"
-                            listener="#{searchController.fillBooksByGenre()}"/>
-                </h:commandLink>
+                </p:commandLink>
             </ui:repeat>
         </h:form>
     </ui:composition>

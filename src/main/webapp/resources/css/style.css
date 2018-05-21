@@ -16,10 +16,8 @@ header {
 
 .loading {
     position: absolute;
-    background: #f57777;
     top: 5%;
     left: 50%;
-    display: none;
 }
 
 .head {

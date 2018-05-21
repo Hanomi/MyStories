@@ -17,9 +17,17 @@
 
     <h:body>
         <header>
-            <div class="loading" id="loading_wrapper">
-                <p>#{lcl.loading}...</p>
-            </div>
+            <p:ajaxStatus styleClass="loading" id="ajaxStatusLoading">
+                <f:facet name="start">
+                    <div id="loading_bar">
+                        <h:graphicImage library="images" name="ajax-loader.gif"/>
+                    </div>
+                </f:facet>
+
+                <f:facet name="complete">
+                    <h:outputText value=""/>
+                </f:facet>
+            </p:ajaxStatus>
             <ui:insert name="header">
                 <ui:include src="header.xhtml"/>
             </ui:insert>

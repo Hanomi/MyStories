@@ -3,7 +3,9 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
 <h:head>
     <title>Title</title>
@@ -23,17 +25,15 @@
             </h:form>
 
             <h:form styleClass="search_form">
-                <h:inputText id="search_string" value="#{searchController.searchString}">
-                    <f:ajax event="change"/>
-                </h:inputText>
-                <h:commandButton value="#{lcl.search}">
-                    <f:ajax onevent="showProgress" execute="@form"
-                            render="@form :booksForm:  :genres_list :pager_down :books_count :letters_form"
-                            listener="#{searchController.fillBooksBySearch()}"/>
-                </h:commandButton>
+                <p:inputText id="search_string" value="#{searchController.searchString}">
+                    <p:ajax event="change" global="false"/>
+                </p:inputText>
+                <p:commandButton value="#{lcl.search}" actionListener="#{searchController.fillBooksBySearch()}"
+                                 update="@form :booksForm:book_list :genres_list :booksForm:books_count">
+                </p:commandButton>
                 <h:selectOneMenu value="#{searchController.searchType}">
                     <f:selectItems value="#{searchTypeController.searchMap}"/>
-                    <f:ajax event="change"/>
+                    <p:ajax event="change" global="false"/>
                 </h:selectOneMenu>
             </h:form>
         </div>
