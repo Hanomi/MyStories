@@ -17,7 +17,6 @@ public class Book {
     private Publisher publisher;
     private byte[] image;
     private String description;
-    private boolean edit;
 
     @Id
     @Column(name = "id")
@@ -116,15 +115,6 @@ public class Book {
         this.description = description;
     }
 
-    @Transient
-    public boolean isEdit() {
-        return edit;
-    }
-
-    public void setEdit(boolean edit) {
-        this.edit = edit;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -132,7 +122,6 @@ public class Book {
         Book book = (Book) o;
         return id == book.id &&
                 pageCount == book.pageCount &&
-                edit == book.edit &&
                 Objects.equals(name, book.name) &&
                 Objects.equals(author, book.author) &&
                 Objects.equals(genre, book.genre) &&
@@ -145,6 +134,6 @@ public class Book {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, author, genre, pageCount, isbn, publishYear, publisher, description, edit);
+        return Objects.hash(id, name, author, genre, pageCount, isbn, publishYear, publisher, description);
     }
 }

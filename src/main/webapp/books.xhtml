@@ -19,93 +19,109 @@
         </ui:define>
 
         <ui:define name="content">
+            <p:growl life="3000" id="growlMessage" globalOnly="true"/>
+
+            <p:dialog modal="true" widgetVar="dialogEditBook" dynamic="true" resizable="false" closable="false">
+                <h:form id="formEditBook" rendered="#{request.isUserInRole('admin')}">
+                    <p:panelGrid id="bookDetails" columns="2" columnClasses="col1, col2" styleClass="edit_book_table">
+                        <strong>#{lcl.book_name}: </strong>
+                        <p:inputText id="inputBookName" value="#{searchController.currentBook.name}" required="true"
+                                     requiredMessage="#{lcl.required_field}" size="60"/>
+                        <strong>#{lcl.author_name}: </strong>
+                        <h:selectOneMenu value="#{searchController.currentBook.author}"
+                                         converter="#{authorController}">
+                            <f:selectItems value="${authorController.selectItems}"/>
+                        </h:selectOneMenu>
+                        <strong>#{lcl.genre}: </strong>
+                        <h:selectOneMenu value="#{searchController.currentBook.genre}"
+                                         converter="#{genreController}">
+                            <f:selectItems value="${genreController.selectItems}"/>
+                        </h:selectOneMenu>
+                        <strong>#{lcl.publisher} </strong>
+                        <h:selectOneMenu value="#{searchController.currentBook.publisher}"
+                                         converter="#{publisherController}">
+                            <f:selectItems value="${publisherController.selectItems}"/>
+                        </h:selectOneMenu>
+                        <strong>#{lcl.publishDate} </strong>
+                        <p:inputText id="inputPublishDate" value="#{searchController.currentBook.publishYear}"
+                                     required="true">
+                            <f:convertDateTime pattern="dd.MM.yyyy"/>
+                        </p:inputText>
+                        <strong>#{lcl.isbn} </strong>
+                        <p:inputText id="inputIsbn" value="#{searchController.currentBook.isbn}" required="true"/>
+                        <strong>#{lcl.page_count} </strong>
+                        <p:inputText id="inputPageCount" value="#{searchController.currentBook.pageCount}"
+                                     required="true"/>
+                        <strong>#{lcl.description} </strong>
+                        <p:panel>
+                            <p:inputTextarea id="inputDescr" value="#{searchController.currentBook.description}"
+                                             cols="60"
+                                             rows="20" maxlength="500" counter="counter"
+                                             counterTemplate="#{lcl.letters_left} {0}"/>
+                            <h:outputText id="counter"/>
+                        </p:panel>
+                        <p:commandButton styleClass="button-update" value="#{lcl.save}" onclick="this.disabled=true; PF('dialogEditBook').hide();"
+                                         update=":formEditBook :booksForm:book_list :booksForm:books_count :growlMessage"
+                                         action="#{searchController.updateBook()}"/>
+                        <p:commandButton value="#{lcl.cancel}"
+                                         onclick="PF('dialogEditBook').hide()"
+                                         immediate="true" global="false"/>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+
             <h:form id="booksForm">
-                <strong><h:outputText id="books_count" value="#{lcl.book_count} #{searchController.bookListDataModel.getRowCount()}"/></strong>
+                <strong><h:outputText id="books_count"
+                                      value="#{lcl.book_count} #{searchController.bookListDataModel.getRowCount()}"/></strong>
 
                 <h:panelGroup id="adminTools" rendered="#{request.isUserInRole('admin')}">
-                    <h:commandLink rendered="#{!searchController.editMode}">
-                        <h:outputText value="#{lcl.add}"/>
-                        <f:ajax onevent="showProgress" execute="@form" render="@form"/>
-                    </h:commandLink>
-                    <h:commandLink action="#{searchController.enableEditMode}" rendered="#{!searchController.editMode}">
-                        <h:outputText value="#{lcl.edit}"/>
-                        <f:ajax onevent="showProgress" execute="@form" render="@form"/>
-                    </h:commandLink>
-                    <h:commandButton action="#{searchController.updateBooks}"
-                                     rendered="#{searchController.editMode}"
-                                     value="#{lcl.save}">
-                        <f:ajax execute="@form" render="@form"/>
-                    </h:commandButton>
-                    <h:commandButton immediate="true" action="#{searchController.cancelEditMode}"
-                                     rendered="#{searchController.editMode}"
-                                     value="#{lcl.cancel}">
-                        <f:ajax execute="@form" render="@form"/>
-                    </h:commandButton>
+                    <!--//todo ADD book button-->
                 </h:panelGroup>
 
 
-                <p:dataTable lazy="true" id="book_list" value="#{searchController.bookListDataModel}" var="b" styleClass=""
+                <p:dataTable lazy="true" id="book_list" value="#{searchController.bookListDataModel}" var="b"
+                             styleClass=""
                              paginator="true" rows="3" rowsPerPageTemplate="3,5,10"
-                             paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" paginatorAlwaysVisible="false" emptyMessage="">
+                             paginatorTemplate="{RowsPerPageDropdown} {PageLinks}" paginatorAlwaysVisible="false"
+                             emptyMessage="">
                     <p:column>
-                        <h:selectBooleanCheckbox value="#{b.edit}"
-                                                 rendered="#{request.isUserInRole('admin') and !searchController.editMode}"/>
                         <h:graphicImage value="/image?id=#{b.id}" width="120"/>
                     </p:column>
                     <p:column>
                         <div>
                             <p>
                                 <strong>
-                                    <h:outputText value="#{b.name}" rendered="#{!b.edit}"/>
-                                    <h:inputText value="#{b.name}" rendered="#{searchController.editMode and b.edit}"/>
+                                    <h:outputText value="#{b.name}"/>
                                 </strong>
                             </p>
                             <p>
                                 <strong>#{lcl.author_name}: </strong>
-                                <h:outputText value="#{b.author.fio}" rendered="#{!b.edit}"/>
-                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.author}"
-                                                 converter="#{authorController}">
-                                    <f:selectItems value="${authorController.selectItems}"/>
-                                </h:selectOneMenu>
+                                <h:outputText value="#{b.author.fio}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.genre}: </strong>
-                                <h:outputText value="#{b.genre.name}" rendered="#{!b.edit}"/>
-                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}" value="#{b.genre}"
-                                                 converter="#{genreController}">
-                                    <f:selectItems value="${genreController.selectItems}"/>
-                                </h:selectOneMenu>
+                                <h:outputText value="#{b.genre.name}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.page_count}: </strong>
-                                <h:outputText value="#{b.pageCount}" rendered="#{!b.edit}"/>
-                                <h:inputText value="#{b.pageCount}" rendered="#{searchController.editMode and b.edit}"/>
+                                <h:outputText value="#{b.pageCount}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.publisher}: </strong>
-                                <h:outputText value="#{b.publisher.name}" rendered="#{!b.edit}"/>
-                                <h:selectOneMenu rendered="#{searchController.editMode and b.edit}"
-                                                 value="#{b.publisher}" converter="#{publisherController}">
-                                    <f:selectItems value="${publisherController.selectItems}"/>
-                                </h:selectOneMenu>
+                                <h:outputText value="#{b.publisher.name}"/>
                             </p>
                             <p>
                                 <strong>#{lcl.publishDate}: </strong>
-                                <h:outputText value="#{b.publishYear}" rendered="#{!b.edit}">
+                                <h:outputText value="#{b.publishYear}">
                                     <f:convertDateTime pattern="dd.MM.yyyy"/>
                                 </h:outputText>
-                                <h:inputText value="#{b.publishYear}"
-                                             rendered="#{searchController.editMode and b.edit}">
-                                    <f:convertDateTime pattern="dd.MM.yyyy"/>
-                                </h:inputText>
                             </p>
                             <p>
                                 <strong>#{lcl.isbn}: </strong>
-                                <h:outputText value="#{b.isbn}" rendered="#{!b.edit}"/>
-                                <h:inputText value="#{b.isbn}" rendered="#{searchController.editMode and b.edit}"/>
+                                <h:outputText value="#{b.isbn}"/>
                             </p>
                             <p>
-                                <h:panelGroup rendered="#{!b.edit}">
+                                <h:panelGroup>
                                     <h:outputLink value="#{request.contextPath}/read" target="_blank">
                                         <h:outputText value="#{lcl.read}"/>
                                         <f:param name="id" value="#{b.id}"/>
@@ -122,11 +138,34 @@
                     <p:column>
                         <div class="description">
                             <strong>#{lcl.description}: </strong>
-                            <h:outputText value="#{b.description}" rendered="#{!b.edit}"/>
-                            <h:inputText value="#{b.description}" rendered="#{searchController.editMode and b.edit}"/>
+                            <h:outputText value="#{b.description}"/>
                         </div>
                     </p:column>
+                    <p:column rendered="#{request.isUserInRole('admin')}">
+                        <p:commandLink title="#{lcl.edit_book}"
+                                       onclick="PF('dialogEditBook').show()"
+                                       update=":formEditBook:bookDetails">
+                            <h:graphicImage library="images" name="edit.png"/>
+                            <f:setPropertyActionListener value="#{b}" target="#{searchController.currentBook}"/>
+                        </p:commandLink>
+                        <p:commandLink title="#{lcl.delete_book}" type="button" onclick="PF('dialogDeleteBook').show()">
+                            <h:graphicImage library="images" name="delete.png"/>
+                            <f:setPropertyActionListener value="#{b}" target="#{searchController.currentBook}"/>
+                        </p:commandLink>
+                    </p:column>
                 </p:dataTable>
+
+                <p:confirmDialog widgetVar="dialogDeleteBook" header="#{lcl.confirm}" message="#{lcl.delete_confirm}?"
+                                 width="300px" styleClass="dialog_delete">
+                    <h:panelGrid columns="2" style="margin:0 auto; width:150px;">
+                        <p:commandButton id="btnDeletedBook" value="#{lcl.yes}"
+                                         action="#{searchController.deleteBook()}"
+                                         update=":booksForm:book_list :booksForm:books_count :growlMessage"
+                                         onclick="PF('dialogDeleteBook').hide()"/>
+                        <p:commandButton value="#{lcl.no}" styleClass="ui-confirmdialog-no" icon="ui-icon-close"
+                                         onclick="PF('dialogDeleteBook').hide()" type="button"/>
+                    </h:panelGrid>
+                </p:confirmDialog>
             </h:form>
         </ui:define>
 

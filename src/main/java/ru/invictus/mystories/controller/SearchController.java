@@ -20,7 +20,7 @@ public class SearchController implements Serializable {
     private LazyDataModel<Book> bookListDataModel;
     private DataHelper dataHelper;
     private List<Book> bookList; // список книг на странице
-    private boolean editMode; // режим редактирования книг
+    private Book currentBook;
     private SearchType lastType;
     private String lastQuery;
     private String selectedLetter;
@@ -30,7 +30,6 @@ public class SearchController implements Serializable {
 
     public SearchController() {
         bookList = new ArrayList<>();
-        editMode = false;
         dataHelper = DataHelper.INSTANCE;
         lastType = SearchType.UPDATE;
         lastQuery = "";
@@ -46,7 +45,6 @@ public class SearchController implements Serializable {
 
     // книги по жанру
     public void fillBooksByGenre() {
-        editMode = false;
         selectedLetter = "";
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         selectedGenre = params.get("genre_id");
@@ -58,7 +56,6 @@ public class SearchController implements Serializable {
 
     // книги по алфавитному указателю
     public void fillBooksByLetter() {
-        editMode = false;
         selectedGenre = "";
         Map<String, String> params = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap();
         selectedLetter = params.get("letter");
@@ -70,7 +67,6 @@ public class SearchController implements Serializable {
 
     // книги по поиску
     public void fillBooksBySearch(){
-        editMode = false;
         selectedGenre = "";
         selectedLetter = "";
         lastType = searchType;
@@ -79,21 +75,15 @@ public class SearchController implements Serializable {
         bookListDataModel.setRowCount((int) rows);
     }
 
-    //  режим редактирования
-    public void enableEditMode() {
-        editMode = true;
-    }
-
-    // отмена редактирования
-    public void cancelEditMode() {
-        editMode = false;
-        bookList.forEach(f -> f.setEdit(false));
-    }
-
     // обновление книг
-    public void updateBooks() {
-        DataHelper.INSTANCE.update(bookList);
-        cancelEditMode();
+    public void updateBook() {
+        DataHelper.INSTANCE.update(currentBook);
+        long rows = dataHelper.getRowCount(lastType, lastQuery);
+        bookListDataModel.setRowCount((int) rows);
+    }
+
+    public void deleteBook() {
+        System.out.println("DELETE: " + currentBook.getName());
     }
 
     public String getSearchString() {
@@ -120,15 +110,19 @@ public class SearchController implements Serializable {
         return selectedGenre;
     }
 
-    public boolean isEditMode() {
-        return editMode;
-    }
-
     public List<Book> getBookList() {
         return bookList;
     }
 
     public LazyDataModel getBookListDataModel() {
         return bookListDataModel;
+    }
+
+    public void setCurrentBook(Book currentBook) {
+        this.currentBook = currentBook;
+    }
+
+    public Book getCurrentBook() {
+        return currentBook;
     }
 }

@@ -3,7 +3,8 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
 
 <f:view locale="#{localeChanger.currentLocale}">
     <h:head>
@@ -30,34 +31,34 @@
             </h:panelGroup>
 
             <h:panelGroup id="login_div" styleClass="login_div" layout="block">
-                <p class="title">#{lcl.input_info}</p>
-
-                <h:form id="login_form" styleClass="login_form">
-                    #{lcl.input_name}:
-                    <p>
-                        <h:inputText id="username" value="#{user.username}" required="true"
-                                     requiredMessage="#{lcl.login_required}">
-                            <!--         <f:validator validatorId="loginValidator"/>
-                                      <f:ajax event="keyup" render="loginError"/>-->
-                        </h:inputText>
-                    </p>
-                    <p>
-                        <h:inputSecret id="password" value="#{user.password}" required="true"
-                                       redisplay="true" requiredMessage="#{lcl.password_required}">
-                            <!--                                        <f:validator validatorId="loginValidator"/>
-                                                                    <f:ajax event="keyup" render="loginError"/>-->
-                        </h:inputSecret>
-                    </p>
-                    <p>
-                        <h:commandButton action="#{user.login()}"
-                                         onclick="return checkValue(this.form, '#{lcl.login_required}');"
-                                         value="#{lcl.enter}"/>
-                    </p>
-                    <p>
-                        <h:message id="loginError" for="login_form" styleClass="error"/>
-                        <h:message id="username_input" for="username" styleClaass="error"/>
-                        <h:message id="password_input" for="password" styleClaass="error"/>
-                    </p>
+                <h:form styleClass="login_form" id="login_form">
+                    <p:panelGrid id="grid" columns="3" columnClasses="col1, col2, col3" styleClass="login_grid">
+                        <span style="color:red;">*</span> #{lcl.input_name}
+                        <p:inputText id="input_username" value="#{user.username}" required="true"
+                                     requiredMessage="#{lcl.login_required}"/>
+                        <p:message id="usernameReq" for="input_username" showDetail="true" display="text"/>
+                        <span style="color:red;">*</span> #{lcl.input_password}
+                        <p:password id="input_password" required="true" requiredMessage="#{lcl.password_required}"
+                                    value="#{user.password}" redisplay="true"/>
+                        <p:message id="passwordReq" for="input_password" showDetail="true" display="text"/>
+                        <f:facet name="footer">
+                            <p:panelGrid styleClass="login_button_ajax" columns="2" columnClasses="col1,col2">
+                                <p:commandButton id="btnLogin" action="#{user.login()}" value="#{lcl.enter}"
+                                                 styleClass="login_button" update="login_form"
+                                                 onclick="this.disabled=true;" oncomplete="this.disabled=
+                                                     true"/>
+                                <p:ajaxStatus id="ajaxStatusPanel">
+                                    <f:facet name="start">
+                                        <h:graphicImage library="images" name="ajax-circle.gif"/>
+                                    </f:facet>
+                                    <f:facet name="complete">
+                                        <h:outputText value=""/>
+                                    </f:facet>
+                                </p:ajaxStatus>
+                            </p:panelGrid>
+                        </f:facet>
+                    </p:panelGrid>
+                    <p:message id="wrongPass" for="login_form" showDetail="true" display="text"/>
                 </h:form>
             </h:panelGroup>
 

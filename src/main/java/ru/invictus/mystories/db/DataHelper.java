@@ -213,13 +213,11 @@ public enum DataHelper implements Serializable {
         return resultList;
     }
 
-    public void update(List<Book> bookList) {
+    public void update(Book currentBook) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.getTransaction();
             transaction.begin();
-            bookList.forEach(f -> {
-                if (f.isEdit()) session.update(f);
-            });
+            session.update(currentBook);
             transaction.commit();
             //session.flush();
         }

@@ -3,10 +3,8 @@ package ru.invictus.mystories.beans;
 import javax.enterprise.context.SessionScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import javax.faces.validator.ValidatorException;
 import javax.inject.Named;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.util.ResourceBundle;
@@ -42,7 +40,11 @@ public class User implements Serializable {
     public String  login() {
         FacesContext context = FacesContext.getCurrentInstance();
         try {
-            ((HttpServletRequest) context.getExternalContext().getRequest()).login(username, password);
+            HttpServletRequest request = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+            if (request.getUserPrincipal()==null || (request.getUserPrincipal()!=null && !request.getUserPrincipal().getName().equals(username))) {
+                request.logout();
+                request.login(username, password);
+            }
             return "books";
         } catch (ServletException e) {
             logger.log(Level.SEVERE, null, e);
