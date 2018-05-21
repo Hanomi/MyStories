@@ -7,6 +7,7 @@ import ru.invictus.mystories.entity.Book;
 import ru.invictus.mystories.utils.SearchType;
 
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -80,10 +81,16 @@ public class SearchController implements Serializable {
         DataHelper.INSTANCE.update(currentBook);
         long rows = dataHelper.getRowCount(lastType, lastQuery);
         bookListDataModel.setRowCount((int) rows);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.localisation", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("book_updated")));
     }
 
     public void deleteBook() {
         System.out.println("DELETE: " + currentBook.getName());
+        long rows = dataHelper.getRowCount(lastType, lastQuery);
+        bookListDataModel.setRowCount((int) rows);
+        ResourceBundle resourceBundle = ResourceBundle.getBundle("locale.localisation", FacesContext.getCurrentInstance().getViewRoot().getLocale());
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(resourceBundle.getString("book_deleted")));
     }
 
     public String getSearchString() {

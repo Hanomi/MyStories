@@ -19,7 +19,7 @@
         </ui:define>
 
         <ui:define name="content">
-            <p:growl life="3000" id="growlMessage" globalOnly="true"/>
+            <p:growl life="2000" id="growlMessage" globalOnly="true"/>
 
             <p:dialog modal="true" widgetVar="dialogEditBook" dynamic="true" resizable="false" closable="false">
                 <h:form id="formEditBook" rendered="#{request.isUserInRole('admin')}">
