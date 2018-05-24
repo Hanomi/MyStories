@@ -29,20 +29,23 @@
                             paginatorAlwaysVisible="true" emptyMessage="">
                     <div class="item">
                         <div class="image-info">
-                            <h:graphicImage value="/image?id=#{b.id}" width="110"/>
+                            <h:graphicImage value="/image?id=#{b.id}" width="110" height="150"/>
                         </div>
                         <div class="info">
                             <div class="book_name">
-                                <h:outputLink id="bookName" styleClass="title" value="#{request.contextPath}/read" target="_blank">
+                                <h:outputLink id="bookName" styleClass="title" value="#{request.contextPath}/read"
+                                              target="_blank">
                                     #{b.name}
                                 </h:outputLink>
                                 <p:tooltip for="bookName" value="#{b.description}" showEffect="fade" hideEffect="fade"
                                            styleClass="tooltip"/>
                             </div>
                             <span>#{b.author}</span>
-                            <p><strong>#{lcl.page_count}:</strong> #{b.pageCount}</p>
+                            <p><strong>#{lcl.page_count}</strong> #{b.pageCount}</p>
                             <p><strong>#{lcl.publisher}</strong> #{b.publisher}</p>
-                            <p><strong>#{lcl.publishDate}</strong> #{b.publishYear} г.</p>
+                            <p><strong>#{lcl.publishDate}</strong> <h:outputText value="#{b.publishYear}">
+                                <f:convertDateTime pattern="dd.MM.yyyy"/>
+                            </h:outputText></p>
                             <p><strong>#{lcl.isbn}</strong> #{b.isbn}</p>
                         </div>
                         <h:outputLink styleClass="mr" value="#{request.contextPath}/read" target="_blank">
@@ -61,14 +64,15 @@
                             <f:setPropertyActionListener value="#{b}" target="#{searchController.currentBook}"/>
                         </p:commandLink>
                         <p:commandLink styleClass="delete-button" title="#{lcl.delete_book}" type="button"
-                                       onclick="PF('dialogDeleteBook').show()" rendered="#{request.isUserInRole('admin')}">
+                                       onclick="PF('dialogDeleteBook').show()"
+                                       rendered="#{request.isUserInRole('admin')}">
                             <p class="delete">#{lcl.delete}</p>
                             <f:setPropertyActionListener value="#{b}" target="#{searchController.currentBook}"/>
                         </p:commandLink>
                     </div>
                 </p:dataGrid>
                 <p:confirmDialog widgetVar="dialogDeleteBook" header="#{lcl.confirm}" message="#{lcl.delete_confirm}?"
-                                 width="300px" styleClass="dialog_delete">
+                                 width="300px" style="background: #f0f0f0">
                     <h:panelGrid columns="2" style="margin:0 auto; width:150px;">
                         <p:commandButton id="btnDeletedBook" value="#{lcl.yes}"
                                          action="#{searchController.deleteBook}" styleClass="ui-confirmdialog-yes"
@@ -84,7 +88,8 @@
         <ui:define name="books_count">
             <div class="box-sh">
                 <h1><p:outputLabel id="booksCount"
-                                   value="#{lcl.book_count}:  #{searchController.bookListDataModel.getRowCount()}"/></h1>
+                                   value="#{lcl.book_count}:  #{searchController.bookListDataModel.getRowCount()}"/>
+                </h1>
                 <h:outputLink rendered="#{request.isUserInRole('admin')}" value="#"><h:outputText
                         value="#{lcl.add_book}"/></h:outputLink>
             </div>
