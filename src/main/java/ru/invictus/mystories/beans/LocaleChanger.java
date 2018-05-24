@@ -1,7 +1,6 @@
 package ru.invictus.mystories.beans;
 
 import javax.enterprise.context.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.Locale;
@@ -10,7 +9,8 @@ import java.util.Locale;
 @SessionScoped
 public class LocaleChanger implements Serializable {
 
-    private Locale currentLocale = FacesContext.getCurrentInstance().getExternalContext().getRequestLocale();
+    // default ru
+    private Locale currentLocale = new Locale("ru");
 
     public LocaleChanger() {}
 

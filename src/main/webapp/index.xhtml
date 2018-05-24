@@ -14,57 +14,40 @@
     </h:head>
 
     <h:body>
-        <div class="main">
-
-            <h:panelGroup id="head" layout="block">
-                <p class="title"><h:graphicImage library="images" name="my-story.png" width="150"
-                                                 style="background: #999999"/></p>
-                <p class="title">#{lcl.welcome_title}</p>
-                <h:form>
-                    <h:commandLink action="#{localeChanger.changeLocale('en')}" value="EN">
-                        <f:ajax render=":login_div :footer :head" execute="@form"/>
+        <div class="authorization">
+            <h:panelGroup layout="block" styleClass="lg">
+                <h:graphicImage library="images" name="my-story.png" alt="" width="140"/>
+            </h:panelGroup>
+            <h:panelGroup layout="block" styleClass="lang">
+                <h:form style="display: inline;">
+                    <h:commandLink action="#{localeChanger.changeLocale('ru')}">
+                        <h:graphicImage styleClass="#{localeChanger.currentLocale == 'ru' ? 'active':''}"
+                                        library="images" name="rus.png" title="rus"/>
                     </h:commandLink>
-                    <h:commandLink action="#{localeChanger.changeLocale('ru')}" value="RU">
-                        <f:ajax render=":login_div :footer :head" execute="@form"/>
+                    <h:commandLink action="#{localeChanger.changeLocale('en')}">
+                        <h:graphicImage styleClass="#{localeChanger.currentLocale == 'en' ? 'active':''}"
+                                        library="images" name="eng.png" title="eng"/>
                     </h:commandLink>
                 </h:form>
             </h:panelGroup>
-
-            <h:panelGroup id="login_div" styleClass="login_div" layout="block">
-                <h:form styleClass="login_form" id="login_form">
-                    <p:panelGrid id="grid" columns="3" columnClasses="col1, col2, col3" styleClass="login_grid">
-                        <span style="color:red;">*</span> #{lcl.input_name}
-                        <p:inputText id="input_username" value="#{user.username}" required="true"
-                                     requiredMessage="#{lcl.login_required}"/>
-                        <p:message id="usernameReq" for="input_username" showDetail="true" display="text"/>
-                        <span style="color:red;">*</span> #{lcl.input_password}
-                        <p:password id="input_password" required="true" requiredMessage="#{lcl.password_required}"
-                                    value="#{user.password}" redisplay="true"/>
-                        <p:message id="passwordReq" for="input_password" showDetail="true" display="text"/>
-                        <f:facet name="footer">
-                            <p:panelGrid styleClass="login_button_ajax" columns="2" columnClasses="col1,col2">
-                                <p:commandButton id="btnLogin" action="#{user.login()}" value="#{lcl.enter}"
-                                                 styleClass="login_button" update="login_form"
-                                                 onclick="this.disabled=true;" oncomplete="this.disabled=
+            <div class="clear"/>
+            <h:form id="login_form">
+                <p:inputText id="input_username" value="#{user.username}" required="true" placeholder="#{lcl.input_name}"
+                             requiredMessage="#{lcl.login_required}" styleClass="aut-text"/>
+                <p:password id="input_password" value="#{user.password}" required="true" placeholder="#{lcl.input_password}"
+                            requiredMessage="#{lcl.password_required}" redisplay="true" styleClass="aut-text"/>
+                <h:panelGroup layout="block" styleClass="error">
+                    <h:messages styleClass="error" id="messages"/>
+                </h:panelGroup>
+                <div class="save-me">
+                    <label><input type="checkbox"/> #{lcl.remember_me}</label>
+                </div>
+                <p:commandButton id="btnLogin" action="#{user.login()}" value="#{lcl.enter}"
+                                 styleClass="butt" update="login_form"
+                                 onclick="this.disabled=true;" oncomplete="this.disabled=
                                                      true"/>
-                                <p:ajaxStatus id="ajaxStatusPanel">
-                                    <f:facet name="start">
-                                        <h:graphicImage library="images" name="ajax-circle.gif"/>
-                                    </f:facet>
-                                    <f:facet name="complete">
-                                        <h:outputText value=""/>
-                                    </f:facet>
-                                </p:ajaxStatus>
-                            </p:panelGrid>
-                        </f:facet>
-                    </p:panelGrid>
-                    <p:message id="wrongPass" for="login_form" showDetail="true" display="text"/>
-                </h:form>
-            </h:panelGroup>
-
-            <h:panelGroup id="footer" styleClass="footer" layout="block">
-                #{lcl.developer_info}
-            </h:panelGroup>
+                <a class="remember" href="#">#{lcl.forgot_password}?</a>
+            </h:form>
         </div>
 
     </h:body>

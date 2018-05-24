@@ -142,8 +142,7 @@
                         </div>
                     </p:column>
                     <p:column rendered="#{request.isUserInRole('admin')}">
-                        <p:commandLink title="#{lcl.edit_book}"
-                                       onclick="PF('dialogEditBook').show()"
+                        <p:commandLink title="#{lcl.edit_book}" onclick="PF('dialogEditBook').show()"
                                        update=":formEditBook:bookDetails">
                             <h:graphicImage library="images" name="edit.png"/>
                             <f:setPropertyActionListener value="#{b}" target="#{searchController.currentBook}"/>

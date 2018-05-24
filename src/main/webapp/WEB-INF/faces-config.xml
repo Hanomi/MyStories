@@ -10,10 +10,6 @@
             <base-name>locale.localisation</base-name>
             <var>lcl</var>
         </resource-bundle>
-        <locale-config>
-            <default-locale>en</default-locale>
-            <supported-locale>ru</supported-locale>
-        </locale-config>
     </application>
 
     <navigation-rule>
