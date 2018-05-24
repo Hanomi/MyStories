@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+<h:body>
+    <ui:composition>
+        <div id="wrap">
+            <div class="logo">
+                <a href="#">
+                    <h:graphicImage library="images" name="my-story.png" width="300"/>
+                </a>
+            </div>
+            <div class="menu">
+                <h:form>
+                    <ul>
+                        <li><a href="#">#{lcl.new}</a></li>
+                        <li><a href="#">#{lcl.popular}</a></li>
+                        <li><a href="#">#{lcl.about}</a></li>
+                        <li><a href="#">#{lcl.contacts}</a></li>
+                        <li><a href="#">#{lcl.team}</a></li>
+                    </ul>
+                </h:form>
+            </div>
+            <a class="feedback" href="mailto:support@javabegin.ru">#{lcl.feedback}</a>
+            <div class="clear"/>
+        </div>
+    </ui:composition>
+</h:body>
+</html>
+

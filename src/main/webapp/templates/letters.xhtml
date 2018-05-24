@@ -13,18 +13,22 @@
 
 <h:body>
     <ui:composition>
-        <h:form id="letters_form" styleClass="letters">
-            <ui:repeat value="#{lettersController.letters}" var="letter">
-                <p:commandLink value="#{letter}"
-                               styleClass="#{letter == searchController.selectedLetter ? 'letter_selected' : 'letter'}"
-                               actionListener="#{searchController.fillBooksByLetter()}"
-                               update="@form :booksForm:book_list :genres_list :booksForm:books_count">
-                    <f:param name="letter" value="#{letter}"/>
-                </p:commandLink>
-            </ui:repeat>
-        </h:form>
+        <div class="nav">
+            <h:form id="lettersForm">
+                <ul>
+                    <ui:repeat value="#{lettersController.letters}" var="letter">
+                        <li>
+                            <p:commandLink value="#{letter}"
+                                           styleClass="#{letter == searchController.selectedLetter ? 'selected':''}"
+                                           actionListener="#{searchController.fillBooksByLetter()}"
+                                           update=":genresForm  :booksForm:booksList @form :lettersForm   :booksCount">
+                                <f:param name="letter" value="#{letter}"/>
+                            </p:commandLink></li>
+                    </ui:repeat>
+                </ul>
+            </h:form>
+        </div>
     </ui:composition>
-
 </h:body>
 
 </html>

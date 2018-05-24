@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>Facelet Title</title>
+</h:head>
+<h:body>
+
+    <ui:composition>
+        <div class="search">
+
+
+            <h:form styleClass="search_form" id="search_form">
+                <input type="submit" class="button-text"/>
+                <h:inputText id="search_string" styleClass="search-text" value="#{searchController.searchString}"/>
+                <p:commandButton id="btnSearch" value="#{lcl.search}" styleClass="button"
+                                 actionListener="#{searchController.fillBooksBySearch}"
+                                 update=":booksForm:booksList @form :lettersForm :genresForm :booksCount"/>
+                <div class="dropdown">
+                    <h:selectOneMenu id="search_select" styleClass="select_search"
+                                     value="#{searchController.searchType}">
+                        <f:selectItems value="${searchTypeController.searchMap}"/>
+                    </h:selectOneMenu>
+                </div>
+                <p:defaultCommand target="btnSearch"/>
+            </h:form>
+            <div class="clear"/>
+        </div>
+    </ui:composition>
+</h:body>
+</html>
+

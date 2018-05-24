@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <ui:composition>
+        <div class="left-menu">
+            <h:form styleClass="genres" id="genresForm">
+                <ul>
+                    <ui:repeat value="#{genreController.genreList}" var="g">
+                        <li>
+                            <p:commandLink update=":booksForm:booksList @form :lettersForm :booksCount"
+                                           value="#{g.name}"
+                                           styleClass="#{g.id == searchController.selectedGenre ? 'selected_link':''}"
+                                           actionListener="#{searchController.fillBooksByGenre()}">
+                                <f:param name="genre_id" value="#{g.id}"/>
+                            </p:commandLink>
+                        </li>
+                    </ui:repeat>
+                </ul>
+            </h:form>
+        </div>
+    </ui:composition>
+</h:body>
+
+</html>

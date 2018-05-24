@@ -16,45 +16,34 @@
     </h:head>
 
     <h:body>
-        <header>
-            <p:ajaxStatus styleClass="loading" id="ajaxStatusLoading">
-                <f:facet name="start">
-                    <div id="loading_bar">
-                        <h:graphicImage library="images" name="ajax-loader.gif"/>
-                    </div>
-                </f:facet>
-
-                <f:facet name="complete">
-                    <h:outputText value=""/>
-                </f:facet>
-            </p:ajaxStatus>
-            <ui:insert name="header">
-                <ui:include src="header.xhtml"/>
-            </ui:insert>
-        </header>
-        <div class="general">
-            <div class="content">
-                <ui:insert name="content">
-                    <ui:include src="content.xhtml"/>
-                </ui:insert>
-            </div>
-            <aside id="left_menu" class="left_menu" role="complementary">
-                <ui:insert name="left_menu">
-                    <ui:include src="left_menu.xhtml"/>
-                </ui:insert>
-            </aside>
-            <div class="general-bottom">
-                <ui:insert name="general_bottom">
-                    <ui:include src="letters.xhtml"/>
-                </ui:insert>
-            </div>
+        <p:ajaxStatus id="ajaxStatusPanel">
+            <f:facet name="start">
+                <div id="loading_wrapper">
+                    <p>#{lcl.loading}...</p>
+                </div>
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+        <div class="header">
+            <ui:include src="/templates/header.xhtml"/>
         </div>
-
-        <footer>
-            <ui:insert name="footer">
-                <ui:include src="footer.xhtml"/>
-            </ui:insert>
-        </footer>
+        <div id="wrap">
+            <ui:include src="/templates/logo.xhtml"/>
+            <ui:include src="/templates/search.xhtml"/>
+            <ui:include src="/templates/letters.xhtml"/>
+            <div class="content">
+                <ui:include src="/templates/genres.xhtml"/>
+                <div class="right-content">
+                    <ui:insert name="books_count"/>
+                    <ui:insert name="content"/>
+                    <div class="clear"/>
+                </div>
+            </div>
+            <div class="footer_blank"/>
+        </div>
+        <ui:include src="/templates/footer.xhtml"/>
     </h:body>
 </f:view>
 </html>

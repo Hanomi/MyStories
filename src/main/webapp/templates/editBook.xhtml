@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Naera
+  Date: 24.05.2018
+  Time: 21:24
+-->
+<!DOCTYPE html
+        PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core">
+
+<h:head>
+    <title>Title</title>
+</h:head>
+
+<h:body>
+    <p:dialog modal="true" widgetVar="dialogEditBook" dynamic="true" resizable="false" closable="false">
+        <h:form id="formEditBook" rendered="#{request.isUserInRole('admin')}">
+            <p:panelGrid id="bookDetails" columns="2" columnClasses="col1, col2" styleClass="edit_book_table">
+                <strong>#{lcl.book_name}: </strong>
+                <p:inputText id="inputBookName" value="#{searchController.currentBook.name}" required="true"
+                             requiredMessage="#{lcl.required_field}" size="60"/>
+                <strong>#{lcl.author_name}: </strong>
+                <h:selectOneMenu value="#{searchController.currentBook.author}"
+                                 converter="#{authorController}">
+                    <f:selectItems value="${authorController.selectItems}"/>
+                </h:selectOneMenu>
+                <strong>#{lcl.genre}: </strong>
+                <h:selectOneMenu value="#{searchController.currentBook.genre}"
+                                 converter="#{genreController}">
+                    <f:selectItems value="${genreController.selectItems}"/>
+                </h:selectOneMenu>
+                <strong>#{lcl.publisher} </strong>
+                <h:selectOneMenu value="#{searchController.currentBook.publisher}"
+                                 converter="#{publisherController}">
+                    <f:selectItems value="${publisherController.selectItems}"/>
+                </h:selectOneMenu>
+                <strong>#{lcl.publishDate} </strong>
+                <p:inputText id="inputPublishDate" value="#{searchController.currentBook.publishYear}"
+                             required="true">
+                    <f:convertDateTime pattern="dd.MM.yyyy"/>
+                </p:inputText>
+                <strong>#{lcl.isbn} </strong>
+                <p:inputText id="inputIsbn" value="#{searchController.currentBook.isbn}" required="true"/>
+                <strong>#{lcl.page_count} </strong>
+                <p:inputText id="inputPageCount" value="#{searchController.currentBook.pageCount}"
+                             required="true"/>
+                <strong>#{lcl.description} </strong>
+                <p:panel>
+                    <p:inputTextarea id="inputDescr" value="#{searchController.currentBook.description}"
+                                     cols="60"
+                                     rows="20" maxlength="500" counter="counter"
+                                     counterTemplate="#{lcl.letters_left} {0}"/>
+                    <h:outputText id="counter"/>
+                </p:panel>
+                <p:commandButton styleClass="button-update" value="#{lcl.save}" onclick="this.disabled=true; PF('dialogEditBook').hide();"
+                                 update=":formEditBook :booksForm:book_list :booksForm:books_count :growlMessage"
+                                 action="#{searchController.updateBook()}"/>
+                <p:commandButton value="#{lcl.cancel}"
+                                 onclick="PF('dialogEditBook').hide()"
+                                 immediate="true" global="false"/>
+            </p:panelGrid>
+        </h:form>
+    </p:dialog>
+
+</h:body>
+
+</html>

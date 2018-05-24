@@ -3,9 +3,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:ui="http://java.sun.com/jsf/facelets">
 
 <h:head>
     <title>Title</title>
@@ -13,29 +11,29 @@
 
 <h:body>
     <ui:composition>
-        <div class="head">
-            <h:graphicImage library="images" name="my-story.png"/>
-            <h3>#{lcl.welcome_title}, #{user.username}</h3>
-            <h:form>
-                <h:commandButton action="#{loginController.exit()}" value="#{lcl.exit}"/>
-            </h:form>
-            <h:form>
-                <h:commandButton action="#{localeChanger.changeLocale('en')}" value="EN"/>
-                <h:commandButton action="#{localeChanger.changeLocale('ru')}" value="RU"/>
-            </h:form>
-
-            <h:form styleClass="search_form">
-                <p:inputText id="search_string" value="#{searchController.searchString}">
-                    <p:ajax event="change" global="false"/>
-                </p:inputText>
-                <p:commandButton value="#{lcl.search}" actionListener="#{searchController.fillBooksBySearch()}"
-                                 update="@form :booksForm:book_list :genres_list :booksForm:books_count">
-                </p:commandButton>
-                <h:selectOneMenu value="#{searchController.searchType}">
-                    <f:selectItems value="#{searchTypeController.searchMap}"/>
-                    <p:ajax event="change" global="false"/>
-                </h:selectOneMenu>
-            </h:form>
+        <div class="header-wrap">
+            <h:panelGroup layout="block" styleClass="language">
+                <h:form style="display: inline;">
+                    <h:commandLink action="#{localeChanger.changeLocale('ru')}">
+                        <h:graphicImage styleClass="#{localeChanger.currentLocale == 'ru' ? 'active':''}"
+                                        library="images" name="rus.png" title="rus"/>
+                    </h:commandLink>
+                    <h:commandLink action="#{localeChanger.changeLocale('en')}">
+                        <h:graphicImage styleClass="#{localeChanger.currentLocale == 'en' ? 'active':''}"
+                                        library="images" name="eng.png" title="eng"/>
+                    </h:commandLink>
+                </h:form>
+            </h:panelGroup>
+            <div class="social">
+                <a href="#"> <h:graphicImage library="images" name="vk.jpg" width="16" height="16"/></a>
+                <a href="#"> <h:graphicImage library="images" name="facebook.jpg" width="16" height="16"/></a>
+            </div>
+            <div class="aut">
+                <p>#{user.username}</p>
+                <h:form>
+                    <h:commandLink action="#{user.logout()}" value="#{lcl.exit}"/>
+                </h:form>
+            </div>
         </div>
     </ui:composition>
 </h:body>
